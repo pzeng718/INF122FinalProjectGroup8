@@ -1,0 +1,123 @@
+.root {
+    -fx-background-color: #17181c;
+    -fx-font-family: "Quicksand Medium";
+    -fx-font-size: 14px;
+    -fx-base: rgb(50, 50, 50);
+    -fx-background: rgb(50, 50, 50);
+    -fx-color: derive(-fx-base, 10%);
+    -fx-control-inner-background: rgb(20, 20, 20);
+    -fx-control-inner-background-alt: derive(-fx-control-inner-background, 2.5%);
+    -fx-light-text-color: rgb(220, 220, 220);
+    -fx-mid-text-color: rgb(100, 100, 100);
+    -fx-dark-text-color: rgb(20, 20, 20);
+    -fx-accent: rgb(0, 80, 100);
+    -fx-selection-bar-non-focused: rgb(50, 50, 50);
+}
+.success-btn {
+    -fx-color: #28a745;
+    -fx-border-color: #28a745;
+    -fx-text-fill: #28a745;
+}
+
+.success-btn:hover {
+    -fx-text-fill: white;
+    -fx-background-color: #28a745;
+}
+
+.info-btn {
+    -fx-color: #17a2b8;
+    -fx-border-color: #17a2b8;
+    -fx-text-fill: #17a2b8;
+    -fx-background-color: transparent;
+}
+
+.info-btn-selected {
+    -fx-text-fill: white;
+    -fx-background-color: #17a2b8;
+}
+
+.info-btn:hover {
+    -fx-text-fill: white;
+    -fx-background-color: #17a2b8;
+}
+
+.danger-btn {
+    -fx-color: #dc3545;
+    -fx-border-color: #dc3545;
+    -fx-text-fill: #dc3545;
+}
+
+.danger-btn:hover {
+    -fx-text-fill: white;
+    -fx-background-color: #dc3545;
+}
+
+.context-menu {
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+}
+
+.title-label {
+    -fx-font-size: 16px;
+}
+
+.message-label {
+    -fx-font-size: 16px;
+}
+
+.text-input {
+    -fx-prompt-text-fill: derive(-fx-control-inner-background, +50%);
+}
+
+.text-input:focused {
+    -fx-prompt-text-fill: transparent;
+}
+
+.dialog-pane > .button-bar > .container > .details-button {
+    -fx-text-fill: #FFFFFF;
+}
+
+.btn {
+    -fx-display: inline-block;
+    -fx-font-weight: 400;
+    -fx-text-align: center;
+    -fx-vertical-align: middle;
+    -fx-user-select: none;
+    -fx-background-color: transparent;
+    -fx-border: 1px;
+    -fx-border-style: solid;
+    -fx-padding: 6px 12px;
+    -fx-font-size: 14px;
+    -fx-line-height: 1.5px;
+    -fx-border-radius: 4px;
+    -fx-transition: color .15s ease-in-out, -fx-background-color .15s ease-in-out, -fx-border-color .15s ease-in-out, -fx-box-shadow .15s ease-in-out;
+}
+
+.date-cell {
+    -fx-text-fill: rgb(220, 220, 220);
+}
+
+.date-picker-popup > * > .spinner > .button > .left-arrow,
+.date-picker-popup > * > .spinner > .button > .right-arrow,
+.date-picker-popup > * > .spinner > .button:hover > .left-arrow,
+.date-picker-popup > * > .spinner > .button:hover > .right-arrow,
+.date-picker-popup > * > .spinner > .button:pressed > .left-arrow,
+.date-picker-popup > * > .spinner > .button:pressed > .right-arrow {
+    -fx-background-color: rgb(220, 220, 220);
+}
+.date-picker-popup > * > .today {
+    -fx-background-color: -fx-control-inner-background, derive(-fx-selection-bar-non-focused, -20%), -fx-control-inner-background;
+    -fx-border-color: rgb(0, 120, 150);
+    -fx-border-insets: 2;
+    -fx-border-width: 2px;
+}
+.date-picker-popup > * > .day-cell:focused,
+.date-picker-popup > * > .today:focused {
+    -fx-background-color: rgb(0, 80, 100);
+    -fx-background-insets: 1, 2, 3;
+}
