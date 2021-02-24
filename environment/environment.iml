@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../environment">
+      <sourceFolder url="file://$MODULE_DIR$/../environment/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../environment/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../environment/src/resources" type="java-resource" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.16/lombok-1.18.16.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.6" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.13.0" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:mac:11" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:mac:11" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:mac:11" level="project" />
+  </component>
+</module>

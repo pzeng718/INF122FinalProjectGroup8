@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/bejeweled/bejeweled.iml" filepath="$PROJECT_DIR$/bejeweled/bejeweled.iml" />
+      <module fileurl="file://$PROJECT_DIR$/candycrush/candycrush.iml" filepath="$PROJECT_DIR$/candycrush/candycrush.iml" />
+      <module fileurl="file://$PROJECT_DIR$/environment/environment.iml" filepath="$PROJECT_DIR$/environment/environment.iml" />
+    </modules>
+  </component>
+</project>
