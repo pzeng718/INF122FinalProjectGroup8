@@ -10,10 +10,10 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.16/lombok-1.18.16.jar" />
         </processorPath>
+        <module name="TMGE" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="TMGE" target="11" />
       <module name="TMGEProject" target="11" />
     </bytecodeTargetLevel>
   </component>
