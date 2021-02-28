@@ -22,12 +22,12 @@ public class Main {
         squareTilesCollection.remove(new Point(0, 0));
         squareTilesCollection.add(new DefaultTile(TileType.CANDY), 0);
 
-        System.out.println("Board After Remove:");
+        System.out.println("Board After Remove");
         displayBoard(tiles);
 
         squareTilesCollection.swap(new Point(0, 0), new Point(2, 0));
 
-        System.out.println("Board After Swap:");
+        System.out.println("Board After Swap");
         displayBoard(tiles);
     }
 
