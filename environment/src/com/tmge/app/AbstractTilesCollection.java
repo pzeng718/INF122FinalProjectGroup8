@@ -10,25 +10,25 @@ import java.util.function.Consumer;
 public abstract class AbstractTilesCollection {
     Set<Consumer<Point>> tileAddedListeners;
 
-    abstract void add(DefaultTile tile, Point point);
+    public abstract void add(DefaultTile tile, Point point);
 
-    abstract void add(DefaultTile tile, int x);
+    public abstract void add(DefaultTile tile, int x);
 
-    abstract void remove(DefaultTile tile);
+    public abstract void remove(Point point);
 
-    abstract DefaultTile get(Point point);
+    public abstract DefaultTile get(Point point);
 
-    abstract void swap(DefaultTile firstTile, DefaultTile secondTile);
+    public abstract void swap(DefaultTile firstTile, DefaultTile secondTile);
 
-    abstract void swap(Point firstPoint, Point secondPoint);
+    public abstract void swap(Point firstPoint, Point secondPoint);
 
-    abstract void addTileAddedListener(Consumer<Point> consumer);
+//    public abstract void addTileAddedListener(Consumer<Point> consumer);
+//
+//    public abstract void notifyTileAddedListener(Point point);
 
-    abstract void notifyTileAddedListener(Point point);
+    public abstract int calcPoints(List<Point> pointList);
 
-    abstract void calcPoints(List<Point> pointList);
-
-    abstract void calcObjectives(List<Point> pointList);
-
-    abstract boolean validMove(Point firstPoint, Point secondPoint);
+//    public abstract void calcObjectives(List<Point> pointList);
+//
+//    public abstract boolean validMove(Point firstPoint, Point secondPoint);
 }

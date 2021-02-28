@@ -12,6 +12,7 @@ public enum TileType implements TileTypeInfo {
     DIAMOND("/resources/diamond.png", "Diamond"),
     CRYSTAL("/resources/crystal.png", "Crystal"),
     COIN("/resources/coin.png", "Coin"),
+    CANDY("/resources/candy.png", "Candy")
     ;
 
     private final String src;
