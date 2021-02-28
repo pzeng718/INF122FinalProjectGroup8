@@ -1,9 +1,11 @@
 package com.tmge.app.tile;
 
+import javafx.scene.image.Image;
+
 public interface TileTypeInfo {
-    void getSrc();
+    String getSrc();
 
-    void getName();
+    String getName();
 
-    void getImage();
+    Image getImage();
 }

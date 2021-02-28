@@ -1,6 +1,6 @@
 package com.tmge.app;
 
-import com.tmge.app.tile.AbstractTile;
+import com.tmge.app.tile.DefaultTile;
 
 import java.awt.Point;
 import java.util.List;
@@ -10,15 +10,15 @@ import java.util.function.Consumer;
 public abstract class AbstractTilesCollection {
     Set<Consumer<Point>> tileAddedListeners;
 
-    abstract void add(AbstractTile tile, Point point);
+    abstract void add(DefaultTile tile, Point point);
 
-    abstract void add(AbstractTile tile, int x);
+    abstract void add(DefaultTile tile, int x);
 
-    abstract void remove(AbstractTile tile);
+    abstract void remove(DefaultTile tile);
 
-    abstract AbstractTile get(Point point);
+    abstract DefaultTile get(Point point);
 
-    abstract void swap(AbstractTile firstTile, AbstractTile secondTile);
+    abstract void swap(DefaultTile firstTile, DefaultTile secondTile);
 
     abstract void swap(Point firstPoint, Point secondPoint);
 
