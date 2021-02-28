@@ -81,7 +81,7 @@ public class SquareTilesCollection extends AbstractTilesCollection {
 //        if(!matchedTilesPositions.isEmpty()){
 //            int points = calcPoints(matchedTilesPositions);
 //            removeMatchedTiles(matchedTilesPositions);
-//            // TODO: add score to current player
+//            // TODO: Add score to current player
 //        }else{
 //            swapTile(firstTile, firstPoint, secondTile, secondPoint);
 //        }
