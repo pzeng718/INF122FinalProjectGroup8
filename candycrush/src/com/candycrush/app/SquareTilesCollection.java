@@ -116,6 +116,7 @@ public class SquareTilesCollection extends AbstractTilesCollection {
 
     }
 
+    // Get all the tiles that can be eliminated after the swap
     public List<Point> getMatchedTilesPositions(){
         return null;
     }
