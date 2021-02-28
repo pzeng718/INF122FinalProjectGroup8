@@ -28,7 +28,8 @@ public abstract class AbstractTilesCollection {
 
     public abstract int calcPoints(List<Point> pointList);
 
-//    public abstract void calcObjectives(List<Point> pointList);
-//
+    public abstract void calcObjectives(List<Point> pointList);
+
 //    public abstract boolean validMove(Point firstPoint, Point secondPoint);
+    public abstract List<Point> getMatchedTilesPositions();
 }

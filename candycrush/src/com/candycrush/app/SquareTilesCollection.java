@@ -95,10 +95,6 @@ public class SquareTilesCollection extends AbstractTilesCollection {
         swap(get(firstPoint), get(secondPoint));
     }
 
-    private List<Point> getMatchedTilesPositions(){
-        return null;
-    }
-
     private void removeMatchedTiles(List<Point> matchedTilesPositions){
         for(Point point : matchedTilesPositions){
             remove(point);
@@ -114,5 +110,13 @@ public class SquareTilesCollection extends AbstractTilesCollection {
 
     public int calcPoints(List<Point> matchedTilesPositions) {
         return 1;
+    }
+
+    public void calcObjectives(List<Point> pointList){
+
+    }
+
+    public List<Point> getMatchedTilesPositions(){
+        return null;
     }
 }
