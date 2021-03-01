@@ -29,7 +29,7 @@ public abstract class AbstractStageManager extends Application {
     protected abstract Parent firstView();
 
     public void loadView(Parent parent) {
-        getStage().setScene(new Scene(parent, 1200, 800));
+        getStage().setScene(new Scene(parent, 1200, 600));
         getStage().getScene().getStylesheets().add(ClassLoader.getSystemResource("dark.css").toExternalForm());
     }
 }

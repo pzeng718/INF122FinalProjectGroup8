@@ -1,11 +1,13 @@
+package com.tmge.app;
 import lombok.Getter;
 
 @Getter
-abstract class AbstractBoard {
-    AbstractTilesCollection tiles; 
+public abstract class AbstractBoard {
+    private final AbstractTilesCollection tiles;
 
-    //Would it make more sense for this to be a setter? 
-    public abstract AbstractTilesCollection createTilesCollection(){
+    protected AbstractBoard() {
+        this.tiles = createTilesCollection();
+    }
 
-    } 
+    public abstract AbstractTilesCollection createTilesCollection();
 }

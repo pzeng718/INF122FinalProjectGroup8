@@ -6,6 +6,7 @@
     requires javafx.controls;
     requires javafx.base;
     requires java.desktop;
+    requires javafx.graphics;
 
     exports com.tmge.ui;
     exports com.tmge.app;
