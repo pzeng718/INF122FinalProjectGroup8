@@ -23,6 +23,7 @@ public class SelectPlayerView extends DefaultSelectPlayerView {
 
     @Override
     protected void onPlayerSelected(DefaultPlayer player) {
+        Game.getInstance().getPlayerManager().setCurrentPlayer(player);
         Game.getInstance().getStageManager().loadView(new MenuView().init());
     }
 }
