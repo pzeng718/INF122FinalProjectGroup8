@@ -132,28 +132,35 @@ public class SquareTilesCollection extends AbstractTilesCollection {
             DefaultTile firstTile = firstTileOptional.get();
             DefaultTile secondTile = secondTileOptional.get();
             if (firstPoint.x == secondPoint.x) {
+                // Same col
                 List<DefaultTile> col = getColumnsList().get(secondPoint.x);
                 Collections.swap(col, firstPoint.y, secondPoint.y);
             } else {
+                // Same row
                 List<DefaultTile> firstCol = getColumnsList().get(firstPoint.x);
                 List<DefaultTile> secondCol = getColumnsList().get(secondPoint.x);
                 firstCol.set(firstPoint.y, secondTile);
                 secondCol.set(secondPoint.y, firstTile);
             }
             notifyTileChangeListeners(new TileChange(firstTile, secondPoint, TileChangeType.SWAPPED));
+
             Set<DefaultTile> firstTileMatchedTiles = new HashSet<>();
-            getMatchedTilesPositions(firstTile, firstTileMatchedTiles);
-            if (firstTileMatchedTiles.size() > 2) {
-                for (DefaultTile matchedTile : firstTileMatchedTiles) {
-                    remove(matchedTile);
-                }
-            }
+            getMatchedTiles(firstTile, firstTileMatchedTiles);
+            removeMatchedTiles(firstTile, firstTileMatchedTiles);
+
             Set<DefaultTile> secondTileMatchedPoints = new HashSet<>();
-            getMatchedTilesPositions(secondTile, secondTileMatchedPoints);
-            if (secondTileMatchedPoints.size() > 2) {
-                for (DefaultTile matchedTail : secondTileMatchedPoints) {
-                    remove(matchedTail);
-                }
+            getMatchedTiles(secondTile, secondTileMatchedPoints);
+            removeMatchedTiles(secondTile, secondTileMatchedPoints);
+        }
+    }
+
+    private void removeMatchedTiles(DefaultTile tile, Set<DefaultTile> matchedTiles){
+        if (matchedTiles.size() > 2) {
+            for (DefaultTile matchedTile : matchedTiles) {
+                int colToAdd = getPointByTile(matchedTile).get().x;
+                remove(matchedTile);
+                TileType tileType = TileType.values()[(int) (TileType.values().length * Math.random())];
+                add(new DefaultTile(tileType), colToAdd);
             }
         }
     }
@@ -163,34 +170,85 @@ public class SquareTilesCollection extends AbstractTilesCollection {
     }
 
     public void calcObjectives(List<Point> pointList) {
-
     }
 
-    private void getMatchedTilesPositions(DefaultTile tile, Set<DefaultTile> tiles) {
+    private List<DefaultTile> getRow(int rowIndex){
+        List<DefaultTile> row = new ArrayList<>();
+        for(List<DefaultTile> col : columnsList){
+            row.add(col.get(rowIndex));
+        }
+
+        return row;
+    }
+
+    private void getMatchedTiles(DefaultTile tile, Set<DefaultTile> tiles) {
         Optional<Point> pointByTile = getPointByTile(tile);
         if (pointByTile.isPresent()) {
             Point point = pointByTile.get();
-            Point topPoint = new Point(point.x, point.y + 1);
-            Point bottomPoint = new Point(point.x, point.y - 1);
-            Point rightPoint = new Point(point.x + 1, point.y);
-            Point leftPoint = new Point(point.x - 1, point.y);
-            checkChildrenPoints(tile, topPoint, tiles);
-            checkChildrenPoints(tile, bottomPoint, tiles);
-            checkChildrenPoints(tile, rightPoint, tiles);
-            checkChildrenPoints(tile, leftPoint, tiles);
+            List<DefaultTile> col = columnsList.get(point.x);
+            List<DefaultTile> row = getRow(point.y);
+
+            List<DefaultTile> colMatchedTiles = new ArrayList<>();
+            colMatchedTiles.addAll(getMatchedTilesRecursive(col.subList(0, point.y), colMatchedTiles, tile,
+                    false));
+            colMatchedTiles.addAll(getMatchedTilesRecursive(col.subList(point.y + 1, height), colMatchedTiles, tile,
+                    true));
+
+            List<DefaultTile> rowMatchedTiles = new ArrayList<>();
+            rowMatchedTiles.addAll(getMatchedTilesRecursive(row.subList(0, point.x), rowMatchedTiles, tile,
+                    false));
+            rowMatchedTiles.addAll(getMatchedTilesRecursive(row.subList(point.x + 1, width), rowMatchedTiles, tile,
+                    true));
+
+
+            if(colMatchedTiles.size() > 2 || rowMatchedTiles.size() > 2){
+                tiles.add(tile);
+                tiles.addAll(colMatchedTiles);
+                tiles.addAll(rowMatchedTiles);
+            }
+
+            // For debugging purpose
+            for(DefaultTile newTile : tiles){
+                System.out.println(getPointByTile(newTile).get());
+            }
+//            Point point = pointByTile.get();
+//            Point topPoint = new Point(point.x, point.y + 1);
+//            Point bottomPoint = new Point(point.x, point.y - 1);
+//            Point rightPoint = new Point(point.x + 1, point.y);
+//            Point leftPoint = new Point(point.x - 1, point.y);
+//            checkChildrenPoints(tile, topPoint, tiles);
+//            checkChildrenPoints(tile, bottomPoint, tiles);
+//            checkChildrenPoints(tile, rightPoint, tiles);
+//            checkChildrenPoints(tile, leftPoint, tiles);
+
         }
     }
 
-    private void checkChildrenPoints(DefaultTile tile, Point point, Set<DefaultTile> tiles) {
-        Optional<DefaultTile> tileByPoint = getTileByPoint(point);
-        if (tileByPoint.isPresent()) {
-            DefaultTile neighbourTile = tileByPoint.get();
-            if (!tiles.contains(neighbourTile)) {
-                if (neighbourTile.getTileTypeInfo() == tile.getTileTypeInfo()) {
-                    tiles.add(neighbourTile);
-                    getMatchedTilesPositions(neighbourTile, tiles);
-                }
-            }
+    private List<DefaultTile> getMatchedTilesRecursive(List<DefaultTile> targetTiles, List<DefaultTile> matchedTiles,
+                                                       DefaultTile tileToMatch,
+                                                       boolean fromStart){
+        int startIndex = (fromStart) ? 0: targetTiles.size() - 1;
+        int newStartIndex = (fromStart) ? 1: 0;
+
+        if(targetTiles.size() > 0 && targetTiles.get(startIndex).getTileTypeInfo() == tileToMatch.getTileTypeInfo()){
+            matchedTiles.add(targetTiles.get(startIndex));
+            return getMatchedTilesRecursive(targetTiles.subList(newStartIndex, targetTiles.size() + newStartIndex - 1),
+                    matchedTiles, tileToMatch, fromStart);
+        }else{
+            return matchedTiles;
         }
     }
+
+//    private void checkChildrenPoints(DefaultTile tile, Point point, Set<DefaultTile> tiles) {
+//        Optional<DefaultTile> tileByPoint = getTileByPoint(point);
+//        if (tileByPoint.isPresent()) {
+//            DefaultTile neighbourTile = tileByPoint.get();
+//            if (!tiles.contains(neighbourTile)) {
+//                if (neighbourTile.getTileTypeInfo() == tile.getTileTypeInfo()) {
+//                    tiles.add(neighbourTile);
+//                    getMatchedTilesPositions(neighbourTile, tiles);
+//                }
+//            }
+//        }
+//    }
 }
