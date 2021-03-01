@@ -1,9 +1,12 @@
 package com.candycrush.ui.views.statistics;
 
 
+import com.candycrush.Game;
+import com.candycrush.ui.views.menu.MenuView;
 import com.tmge.app.player.DefaultPlayer;
 import com.tmge.ui.components.UIComponents;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import lombok.Getter;
@@ -17,8 +20,7 @@ public class StatisticsView extends BorderPane {
     private final Label scoreLabel;
     private final Label levelValueLabel;
     private final Label scoreValueLabel;
-
-
+    private final Button backButton;
 
     public StatisticsView(DefaultPlayer player) {
         this.player = player;
@@ -28,19 +30,23 @@ public class StatisticsView extends BorderPane {
         this.scoreLabel = UIComponents.createLabel("Player's Score");
         this.scoreValueLabel = UIComponents.createLabel(String.valueOf(player.getScore()));
         this.levelValueLabel = UIComponents.createLabel(String.valueOf(player.getLevel()));
-
+        this.backButton = UIComponents.createInfoButton("BACK");
     }
 
     public StatisticsView init() {
         getLayout().setHgap(30);
         getLayout().setVgap(50);
-        setAlignment(getLayout(), Pos.CENTER);
+        getLayout().setAlignment(Pos.CENTER);
 
         getLayout().add(headingLabel, 0, 0);
         getLayout().add(levelLabel, 0, 1);
         getLayout().add(scoreLabel, 0, 2);
         getLayout().add(levelValueLabel, 1, 1);
         getLayout().add(scoreValueLabel, 1, 2);
+        getLayout().add(getBackButton(), 0, 3, 2, 1);
+        getBackButton().setPrefWidth(200);
+        getBackButton().setOnAction(actionEvent ->
+                Game.getInstance().getStageManager().loadView(new MenuView().init()));
         setCenter(getLayout());
         return this;
     }
