@@ -10,4 +10,7 @@ public class StyleClass {
     public static final String DANGER_BUTTON = "danger-btn";
     public static final String SUCCESS_BUTTON = "success-btn";
     public static final String MESSAGE_LABEL = "message-label";
+    public static final String TILE = "tile";
+    public static final String TILE_GLOW = "tile-glow";
+    public static final String TILE_GLOW_MAIN = "tile-glow-main";
 }

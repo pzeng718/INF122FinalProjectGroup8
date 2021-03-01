@@ -37,7 +37,6 @@ public class StatisticsView extends BorderPane {
         getLayout().setHgap(30);
         getLayout().setVgap(50);
         getLayout().setAlignment(Pos.CENTER);
-
         getLayout().add(headingLabel, 0, 0);
         getLayout().add(levelLabel, 0, 1);
         getLayout().add(scoreLabel, 0, 2);

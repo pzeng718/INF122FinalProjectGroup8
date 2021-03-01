@@ -3,16 +3,20 @@ package com.candycrush.app.tile;
 import com.tmge.app.tile.TileTypeInfo;
 import javafx.scene.image.Image;
 import lombok.Getter;
+import lombok.extern.java.Log;
+
+import java.io.IOException;
 
 /**
  * @author vladshaternik on 2/27/21
  */
 @Getter
+@Log
 public enum TileType implements TileTypeInfo {
-    DIAMOND("/resources/diamond.png", "Diamond"),
-    CRYSTAL("/resources/crystal.png", "Crystal"),
-    COIN("/resources/coin.png", "Coin"),
-    CANDY("/resources/candy.png", "Candy")
+    DIAMOND("diamond.png", "Diamond"),
+    CRYSTAL("crystal.png", "Crystal"),
+    COIN("coin.png", "Coin"),
+    CANDY("candy.png", "Candy")
     ;
 
     private final String src;
@@ -25,7 +29,11 @@ public enum TileType implements TileTypeInfo {
 
     @Override
     public Image getImage() {
-        //TODO - implement
-        return new Image("");
+        try {
+            return new Image(ClassLoader.getSystemResource(getSrc()).openStream());
+        } catch (IOException e) {
+            log.info("Unable to load image resource");
+        }
+        return null;
     }
 }

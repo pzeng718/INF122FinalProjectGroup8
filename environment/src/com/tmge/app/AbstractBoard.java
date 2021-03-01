@@ -3,11 +3,11 @@ import lombok.Getter;
 
 @Getter
 public abstract class AbstractBoard {
-    private final AbstractTilesCollection tiles;
+    private final AbstractTilesCollection tilesCollection;
 
-    protected AbstractBoard() {
-        this.tiles = createTilesCollection();
+    public AbstractBoard() {
+        this.tilesCollection = createTilesCollection();
     }
 
-    public abstract AbstractTilesCollection createTilesCollection();
+    protected abstract AbstractTilesCollection createTilesCollection();
 }

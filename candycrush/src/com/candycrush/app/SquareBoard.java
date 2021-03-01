@@ -5,20 +5,20 @@ import com.tmge.app.AbstractTilesCollection;
 import lombok.Getter;
 
 @Getter
-class SquareBoard extends AbstractBoard {
-    Level level; 
+public class SquareBoard extends AbstractBoard {
+    private final Level level;
 
-    public SquareBoard(Level level){
-        this.level = level; 
+    public SquareBoard(Level level) {
+        super();
+        this.level = level;
     }
 
-    public void init(){ 
-        
+    public void init() {
+        ((SquareTilesCollection) getTilesCollection()).init(getLevel());
     }
 
-    //I think you need to change the return type in the uml class diagram for the SquareBoard's class so that createTilesCollection() returns a AbstractTilesCollection
     @Override
-    public SquareTilesCollection createTilesCollection(){
-        return new SquareTilesCollection(getLevel().getWidth(), getLevel().getHeight());
-    } 
+    protected SquareTilesCollection createTilesCollection() {
+        return new SquareTilesCollection();
+    }
 }

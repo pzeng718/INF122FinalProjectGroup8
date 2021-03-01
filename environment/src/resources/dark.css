@@ -121,3 +121,21 @@
     -fx-background-color: rgb(0, 80, 100);
     -fx-background-insets: 1, 2, 3;
 }
+
+.tile-glow {
+    -fx-border-color: rgb(0, 212, 255);
+    -fx-border-width: 3px;
+    -fx-border-insets: -3px;
+}
+
+.tile-glow-main {
+    -fx-border-color: rgb(255,50,255);
+    -fx-border-width: 3px;
+    -fx-border-insets: -3px;
+}
+
+.tile:hover {
+    -fx-border-color: linear-gradient(rgba(0,212,255,1), rgba(2,0,36,1));
+    -fx-border-width: 3px;
+    -fx-border-insets: -3px;
+}

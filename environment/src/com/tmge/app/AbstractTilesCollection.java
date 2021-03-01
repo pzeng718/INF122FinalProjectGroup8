@@ -1,35 +1,41 @@
 package com.tmge.app;
 
 import com.tmge.app.tile.DefaultTile;
+import com.tmge.app.tile.TileChange;
+import lombok.Getter;
 
 import java.awt.Point;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 
+@Getter
 public abstract class AbstractTilesCollection {
-    Set<Consumer<Point>> tileAddedListeners;
+    private final Set<Consumer<TileChange>> tileChangeListeners = new HashSet<>();
 
     public abstract void add(DefaultTile tile, Point point);
 
     public abstract void add(DefaultTile tile, int x);
 
-    public abstract void remove(Point point);
+    public abstract void remove(DefaultTile tile);
 
-    public abstract DefaultTile get(Point point);
+    public abstract Optional<DefaultTile> getTileByPoint(Point point);
+
+    public abstract Optional<Point> getPointByTile(DefaultTile point);
 
     public abstract void swap(DefaultTile firstTile, DefaultTile secondTile);
 
     public abstract void swap(Point firstPoint, Point secondPoint);
 
-//    public abstract void addTileAddedListener(Consumer<Point> consumer);
-//
-//    public abstract void notifyTileAddedListener(Point point);
+    public void addTileChangeListener(Consumer<TileChange> consumer) {
+        getTileChangeListeners().add(consumer);
+    }
 
-    public abstract int calcPoints(List<Point> pointList);
-
-    public abstract void calcObjectives(List<Point> pointList);
-
-//    public abstract boolean validMove(Point firstPoint, Point secondPoint);
-    public abstract List<Point> getMatchedTilesPositions();
+    public void notifyTileChangeListeners(TileChange tileChange) {
+        for (Consumer<TileChange> tileChangeListener : getTileChangeListeners()) {
+            tileChangeListener.accept(tileChange);
+        }
+    }
 }
