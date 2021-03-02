@@ -151,12 +151,12 @@ public class SquareTilesCollection extends AbstractTilesCollection {
             getMatchedTiles(secondTile, secondTileMatchedPoints);
 
             if(firstTileMatchedTiles.size() > 2) {
-                // TODO: add score
+                // TODO: add score to player
                 removeMatchedTiles(firstTile, firstTileMatchedTiles);
             }
 
             if(secondTileMatchedPoints.size() > 2) {
-                // TODO: add score
+                // TODO: add score to player
                 removeMatchedTiles(secondTile, secondTileMatchedPoints);
             }
         }
