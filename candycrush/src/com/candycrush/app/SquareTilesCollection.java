@@ -146,22 +146,28 @@ public class SquareTilesCollection extends AbstractTilesCollection {
 
             Set<DefaultTile> firstTileMatchedTiles = new HashSet<>();
             getMatchedTiles(firstTile, firstTileMatchedTiles);
-            removeMatchedTiles(firstTile, firstTileMatchedTiles);
 
             Set<DefaultTile> secondTileMatchedPoints = new HashSet<>();
             getMatchedTiles(secondTile, secondTileMatchedPoints);
-            removeMatchedTiles(secondTile, secondTileMatchedPoints);
+
+            if(firstTileMatchedTiles.size() > 2) {
+                // TODO: add score
+                removeMatchedTiles(firstTile, firstTileMatchedTiles);
+            }
+
+            if(secondTileMatchedPoints.size() > 2) {
+                // TODO: add score
+                removeMatchedTiles(secondTile, secondTileMatchedPoints);
+            }
         }
     }
 
     private void removeMatchedTiles(DefaultTile tile, Set<DefaultTile> matchedTiles){
-        if (matchedTiles.size() > 2) {
-            for (DefaultTile matchedTile : matchedTiles) {
-                int colToAdd = getPointByTile(matchedTile).get().x;
-                remove(matchedTile);
-                TileType tileType = TileType.values()[(int) (TileType.values().length * Math.random())];
-                add(new DefaultTile(tileType), colToAdd);
-            }
+        for (DefaultTile matchedTile : matchedTiles) {
+            int colToAdd = getPointByTile(matchedTile).get().x;
+            remove(matchedTile);
+            TileType tileType = TileType.values()[(int) (TileType.values().length * Math.random())];
+            add(new DefaultTile(tileType), colToAdd);
         }
     }
 
@@ -190,15 +196,15 @@ public class SquareTilesCollection extends AbstractTilesCollection {
 
             List<DefaultTile> colMatchedTiles = new ArrayList<>();
             colMatchedTiles.addAll(getMatchedTilesRecursive(col.subList(0, point.y), colMatchedTiles, tile,
-                    false));
+                    false)); // Find matching tiles to the top of current tile
             colMatchedTiles.addAll(getMatchedTilesRecursive(col.subList(point.y + 1, height), colMatchedTiles, tile,
-                    true));
+                    true)); // Find matching tiles to the bottom of current tile
 
             List<DefaultTile> rowMatchedTiles = new ArrayList<>();
             rowMatchedTiles.addAll(getMatchedTilesRecursive(row.subList(0, point.x), rowMatchedTiles, tile,
-                    false));
+                    false)); // Find matching tiles to the left of current tile
             rowMatchedTiles.addAll(getMatchedTilesRecursive(row.subList(point.x + 1, width), rowMatchedTiles, tile,
-                    true));
+                    true)); // Find matching tiles to the right of current tile
 
 
             if(colMatchedTiles.size() > 2 || rowMatchedTiles.size() > 2){
@@ -224,6 +230,10 @@ public class SquareTilesCollection extends AbstractTilesCollection {
         }
     }
 
+    /* Take in a list that contains tiles, either start checking for matching tiles from the start (if the list
+       contains tiles to the bottom or right of current tile) or from the end (if the list contains tiles to the top
+       or left of current tile)
+    */
     private List<DefaultTile> getMatchedTilesRecursive(List<DefaultTile> targetTiles, List<DefaultTile> matchedTiles,
                                                        DefaultTile tileToMatch,
                                                        boolean fromStart){
