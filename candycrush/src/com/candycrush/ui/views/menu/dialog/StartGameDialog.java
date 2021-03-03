@@ -65,6 +65,7 @@ public class StartGameDialog extends AbstractDialog<StartGameOptions> {
     @Override
     protected Optional<StartGameOptions> buildResult() {
         StartGameOptions.StartGameOptionsBuilder startGameOptionsBuilder = StartGameOptions.builder()
+                .firstPlayer(getPlayer())
                 .level(getLevelComboBox().getSelectionModel().getSelectedItem());
         if (getTwoPlayersCheckBox().isSelected()) {
             startGameOptionsBuilder.secondPlayer(getSecondPlayerComboBox().getSelectionModel().getSelectedItem());

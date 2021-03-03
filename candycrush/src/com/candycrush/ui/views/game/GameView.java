@@ -2,21 +2,23 @@ package com.candycrush.ui.views.game;
 
 import com.candycrush.Game;
 import com.candycrush.app.SquareBoard;
+import com.candycrush.ui.views.game.dialog.WinDialog;
+import com.candycrush.ui.views.menu.MenuView;
 import com.candycrush.ui.views.menu.dialog.StartGameOptions;
+import com.tmge.app.player.DefaultPlayer;
 import com.tmge.app.tile.DefaultTile;
 import com.tmge.app.tile.TileChangeType;
 import com.tmge.ui.components.StyleClass;
-import javafx.animation.TranslateTransition;
+import com.tmge.ui.components.UIComponents;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.util.Duration;
-import lombok.AccessLevel;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.awt.*;
 import java.util.HashSet;
@@ -34,6 +36,7 @@ public class GameView extends BorderPane {
     private final TileGridPane boardGridPane;
     private final SimpleObjectProperty<TileViewComponent> selectedTileViewComponent;
     private final Set<Point> selectedTileNeighbours;
+    private final SimpleObjectProperty<DefaultPlayer> currentPlayer;
 
     public GameView(StartGameOptions startGameOptions) {
         this.startGameOptions = startGameOptions;
@@ -41,6 +44,7 @@ public class GameView extends BorderPane {
         this.boardGridPane = new TileGridPane(startGameOptions.getLevel());
         this.selectedTileViewComponent = new SimpleObjectProperty<>();
         this.selectedTileNeighbours = new HashSet<>();
+        this.currentPlayer = new SimpleObjectProperty<>();
     }
 
     public GameView init() {
@@ -125,10 +129,13 @@ public class GameView extends BorderPane {
                         if (oldTilePointOptional.isPresent()) {
                             Point oldTilePoint = oldTilePointOptional.get();
                             if (getSelectedTileNeighbours().contains(newTilePoint)) {
-                                getSquareBoard().getTilesCollection().swap(oldTilePoint, newTilePoint);
+                                int score = getSquareBoard().getTilesCollection().swap(oldTilePoint, newTilePoint);
                                 getSelectedTileNeighbours().clear();
                                 setSelectedTileViewComponent(null);
                                 swapped = true;
+                                getCurrentPlayer().setCurrentMoves(getCurrentPlayer().getCurrentMoves() + 1);
+                                getCurrentPlayer().setCurrentScore(getCurrentPlayer().getCurrentScore() + score);
+                                toggleCurrentPlayer();
                             }
                         }
                     }
@@ -155,7 +162,88 @@ public class GameView extends BorderPane {
         getBoardGridPane().setVgap(5);
         getBoardGridPane().setHgap(5);
         setCenter(getBoardGridPane());
+        setRight(createPlayerView(getStartGameOptions().getFirstPlayer()));
+        if (getStartGameOptions().getSecondPlayer() != null) {
+            setLeft(createPlayerView(getStartGameOptions().getSecondPlayer()));
+        }
+        HBox top = new HBox();
+        top.setAlignment(Pos.CENTER);
+        top.setStyle("-fx-background-color: rgb(100, 100, 150)");
+        top.getChildren().add(UIComponents.createTitleLabel("Objective: Score-" + getStartGameOptions().getLevel().getObjectiveScore() + "|Moves-" + getStartGameOptions().getLevel().getObjectiveMoves()));
+        setTop(top);
+        if (Math.random() < .5) {
+            setCurrentPlayer(getStartGameOptions().getFirstPlayer());
+        } else {
+            if (getStartGameOptions().getSecondPlayer() != null) {
+                setCurrentPlayer(getStartGameOptions().getSecondPlayer());
+            }
+        }
+        getStartGameOptions().getFirstPlayer().setCurrentScore(0);
+        if (getStartGameOptions().getSecondPlayer() != null) {
+            getStartGameOptions().getSecondPlayer().setCurrentScore(0);
+        }
         return this;
+    }
+
+    private void toggleCurrentPlayer() {
+        if (getStartGameOptions().getSecondPlayer() != null) {
+            setCurrentPlayer(getCurrentPlayer().equals(getStartGameOptions().getFirstPlayer()) ?
+                    getStartGameOptions().getSecondPlayer() :
+                    getStartGameOptions().getFirstPlayer());
+        }
+    }
+
+    /*// Check whether the player wins the game by reaching the objectiveScore or loses the game by running out of moves
+    private void checkGameResult(DefaultPlayer currentPlayer) {
+        setNumOfMovesAttempted(getNumOfMovesAttempted() + 1);
+        if (getNumOfMovesAttempted() >= getNumOfMovesAllowed()) { // Use has no move left
+            if (currentPlayer.getTotalScore() < getObjectiveScore()) {
+                System.out.println("You ran out of moves!");
+            } else { // User reaches the objective in the last move
+                System.out.println("You completed this level. You can move on to next level.");
+            }
+        } else {
+            if (currentPlayer.getTotalScore() < getObjectiveScore()) {
+                System.out.format("%s has %d points right now. %d points left to the objective [%d].\n\t%d moves left.\n",
+                        currentPlayer.getUsername(), currentPlayer.getTotalScore(),
+                        getObjectiveScore() - currentPlayer.getTotalScore(), getObjectiveScore(),
+                        getNumOfMovesAllowed() - getNumOfMovesAttempted());
+            } else {
+                System.out.println("You completed this level. You can move on to next level.");
+                // TODO:
+                //  1. notify game to advance to next level
+                //  2. Create UI to show score, moves left and win/lose message
+            }
+        }
+    }*/
+
+    private Node createPlayerView(DefaultPlayer player) {
+        VBox content = new VBox(10);
+        content.setPrefWidth(200);
+        currentPlayerProperty().addListener((observableValue, player1, t1) -> {
+            if (t1 != null) {
+                if (t1.equals(player)) {
+                    content.setStyle("-fx-background-color: rgb(100, 100, 150); -fx-border-width: 2px; -fx-border-color: red");
+                } else {
+                    content.setStyle("-fx-background-color: rgb(100, 100, 150);");
+                }
+            }
+        });
+        content.setAlignment(Pos.CENTER);
+        Label scoreLabel = UIComponents.createLabel("Score: 0");
+        player.currentScoreProperty().addListener((observableValue, s, t1) -> {
+            if (t1 != null) {
+                scoreLabel.setText("Score: " + t1.intValue());
+                if (t1.intValue() >= getStartGameOptions().getLevel().getObjectiveScore()) {
+                    new WinDialog(player, Game.getInstance().getStageManager().getStage()).init().showAndWait().ifPresent(aBoolean -> {
+                        Game.getInstance().getStageManager().loadView(new MenuView().init());
+                    });
+                }
+            }
+        });
+        content.getChildren().addAll(UIComponents.createTitleLabel(player.getUsername()),
+                scoreLabel);
+        return content;
     }
 
     private void addGlowStyle(Point point) {
@@ -175,5 +263,17 @@ public class GameView extends BorderPane {
 
     public void setSelectedTileViewComponent(TileViewComponent selectedTileViewComponent) {
         this.selectedTileViewComponent.set(selectedTileViewComponent);
+    }
+
+    public DefaultPlayer getCurrentPlayer() {
+        return currentPlayer.get();
+    }
+
+    public SimpleObjectProperty<DefaultPlayer> currentPlayerProperty() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(DefaultPlayer currentPlayer) {
+        this.currentPlayer.set(currentPlayer);
     }
 }

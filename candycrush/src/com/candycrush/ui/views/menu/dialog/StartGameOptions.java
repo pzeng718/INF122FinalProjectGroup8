@@ -18,5 +18,7 @@ public class StartGameOptions {
     @Builder.Default
     private final Level level = Level.ONE;
     @Builder.Default
+    private final DefaultPlayer firstPlayer = null;
+    @Builder.Default
     private final DefaultPlayer secondPlayer = null;
 }

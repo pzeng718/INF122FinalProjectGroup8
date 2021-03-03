@@ -20,19 +20,12 @@ public class SquareTilesCollection extends AbstractTilesCollection {
     private final List<List<DefaultTile>> columnsList;
     private int width;
     private int height;
-    private int objectiveScore;
-    private int numOfMovesAllowed;
-    private int numOfMovesAttempted;
 
     public SquareTilesCollection() {
         this.columnsList = new ArrayList<>();
     }
 
     public SquareTilesCollection init(Level level) {
-        this.objectiveScore = level.getObjectiveScore();
-        this.numOfMovesAllowed = level.getTurns();
-        this.numOfMovesAttempted = 0;
-
         setWidth(level.getWidth());
         setHeight(level.getHeight());
         for (int col = 0; col < getWidth(); col++) {
@@ -125,16 +118,17 @@ public class SquareTilesCollection extends AbstractTilesCollection {
     }
 
     @Override
-    public void swap(DefaultTile firstTile, DefaultTile secondTile) {
+    public int swap(DefaultTile firstTile, DefaultTile secondTile) {
         Optional<Point> firstPoint = getPointByTile(firstTile);
         Optional<Point> secondPoint = getPointByTile(secondTile);
         if (firstPoint.isPresent() && secondPoint.isPresent()) {
-            swap(firstPoint.get(), secondPoint.get());
+            return swap(firstPoint.get(), secondPoint.get());
         }
+        return 0;
     }
 
     @Override
-    public void swap(Point firstPoint, Point secondPoint) {
+    public int swap(Point firstPoint, Point secondPoint) {
         Optional<DefaultTile> firstTileOptional = getTileByPoint(firstPoint);
         Optional<DefaultTile> secondTileOptional = getTileByPoint(secondPoint);
         if (firstTileOptional.isPresent() && secondTileOptional.isPresent()) {
@@ -159,61 +153,28 @@ public class SquareTilesCollection extends AbstractTilesCollection {
             Set<DefaultTile> secondTileMatchedPoints = new HashSet<>();
             getMatchedTiles(secondTile, secondTileMatchedPoints);
 
-            Optional<DefaultPlayer> currentPlayerOptional = Game.getInstance().getPlayerManager().getCurrentPlayer();
-            DefaultPlayer currentPlayer = (currentPlayerOptional.isPresent()) ? currentPlayerOptional.get() : null;
-
-            // For debugging purpose
-            int numOfRemovedTiles = 0;
-
-            if(firstTileMatchedTiles.size() > 2) {
-                currentPlayer.addScore(calcPoints(firstTileMatchedTiles));
-                numOfRemovedTiles += firstTileMatchedTiles.size();
-                removeMatchedTiles(firstTile, firstTileMatchedTiles);
+            int score = 0;
+            if (firstTileMatchedTiles.size() > 2) {
+                score += calcPoints(firstTileMatchedTiles);
+                removeMatchedTiles(firstTileMatchedTiles);
             }
-
-            if(secondTileMatchedPoints.size() > 2) {
-                currentPlayer.addScore(calcPoints(secondTileMatchedPoints));
-                numOfRemovedTiles += secondTileMatchedPoints.size();
-                removeMatchedTiles(secondTile, secondTileMatchedPoints);
+            if (secondTileMatchedPoints.size() > 2) {
+                score += calcPoints(secondTileMatchedPoints);
+                removeMatchedTiles(secondTileMatchedPoints);
             }
-
-            // For debugging purpose
-            System.out.format("%d tiles were removed\n", numOfRemovedTiles);
-
-            checkGameResult(currentPlayer);
+            return score;
         }
+        return 0;
     }
 
-    // Check whether the player wins the game by reaching the objectiveScore or loses the game by running out of moves
-    private void checkGameResult(DefaultPlayer currentPlayer){
-        setNumOfMovesAttempted(getNumOfMovesAttempted() + 1);
-        if(getNumOfMovesAttempted() >= getNumOfMovesAllowed()){ // Use has no move left
-            if(currentPlayer.getScore() < getObjectiveScore()){
-                System.out.println("You ran out of moves!");
-            }else{ // User reaches the objective in the last move
-                System.out.println("You completed this level. You can move on to next level.");
-            }
-        }else {
-            if(currentPlayer.getScore() < getObjectiveScore()){
-                System.out.format("%s has %d points right now. %d points left to the objective [%d].\n\t%d moves left.\n",
-                        currentPlayer.getUsername(), currentPlayer.getScore(),
-                        getObjectiveScore() - currentPlayer.getScore(), getObjectiveScore(),
-                        getNumOfMovesAllowed() - getNumOfMovesAttempted());
-            }else{
-                System.out.println("You completed this level. You can move on to next level.");
-                // TODO:
-                //  1. notify game to advance to next level
-                //  2. Create UI to show score, moves left and win/lose message
-            }
-        }
-    }
-
-    private void removeMatchedTiles(DefaultTile tile, Set<DefaultTile> matchedTiles){
+    private void removeMatchedTiles(Set<DefaultTile> matchedTiles) {
         for (DefaultTile matchedTile : matchedTiles) {
-            int colToAdd = getPointByTile(matchedTile).get().x;
-            remove(matchedTile);
-            TileType tileType = TileType.values()[(int) (TileType.values().length * Math.random())];
-            add(new DefaultTile(tileType), colToAdd);
+            getPointByTile(matchedTile).ifPresent(point -> {
+                int colToAdd = point.x;
+                remove(matchedTile);
+                TileType tileType = TileType.values()[(int) (TileType.values().length * Math.random())];
+                add(new DefaultTile(tileType), colToAdd);
+            });
         }
     }
 
@@ -230,9 +191,9 @@ public class SquareTilesCollection extends AbstractTilesCollection {
     public void calcObjectives(List<Point> pointList) {
     }
 
-    private List<DefaultTile> getRow(int rowIndex){
+    private List<DefaultTile> getRow(int rowIndex) {
         List<DefaultTile> row = new ArrayList<>();
-        for(List<DefaultTile> col : columnsList){
+        for (List<DefaultTile> col : columnsList) {
             row.add(col.get(rowIndex));
         }
 
@@ -259,7 +220,7 @@ public class SquareTilesCollection extends AbstractTilesCollection {
                     true)); // Find matching tiles to the right of current tile
 
 
-            if(colMatchedTiles.size() > 2 || rowMatchedTiles.size() > 2){
+            if (colMatchedTiles.size() > 2 || rowMatchedTiles.size() > 2) {
                 tiles.add(tile);
                 tiles.addAll(colMatchedTiles);
                 tiles.addAll(rowMatchedTiles);
@@ -284,15 +245,15 @@ public class SquareTilesCollection extends AbstractTilesCollection {
     */
     private List<DefaultTile> getMatchedTilesRecursive(List<DefaultTile> targetTiles, List<DefaultTile> matchedTiles,
                                                        DefaultTile tileToMatch,
-                                                       boolean fromStart){
-        int startIndex = (fromStart) ? 0: targetTiles.size() - 1;
-        int newStartIndex = (fromStart) ? 1: 0;
+                                                       boolean fromStart) {
+        int startIndex = (fromStart) ? 0 : targetTiles.size() - 1;
+        int newStartIndex = (fromStart) ? 1 : 0;
 
-        if(targetTiles.size() > 0 && targetTiles.get(startIndex).getTileTypeInfo() == tileToMatch.getTileTypeInfo()){
+        if (targetTiles.size() > 0 && targetTiles.get(startIndex).getTileTypeInfo() == tileToMatch.getTileTypeInfo()) {
             matchedTiles.add(targetTiles.get(startIndex));
             return getMatchedTilesRecursive(targetTiles.subList(newStartIndex, targetTiles.size() + newStartIndex - 1),
                     matchedTiles, tileToMatch, fromStart);
-        }else{
+        } else {
             return matchedTiles;
         }
     }
