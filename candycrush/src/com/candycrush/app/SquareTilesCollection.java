@@ -230,6 +230,15 @@ public class SquareTilesCollection extends AbstractTilesCollection {
     public void calcObjectives(List<Point> pointList) {
     }
 
+    @Override
+    public void getMatchedTilesPositions(DefaultTile tile, Set<DefaultTile> tiles) {
+        /*
+        Return the xy positions of all the tiles that can be eliminated after the swap.
+        Otherwise, return an empty list if can't get more than 3 same tiles in either row or column.
+        */
+        return;
+    }
+
     private List<DefaultTile> getRow(int rowIndex){
         List<DefaultTile> row = new ArrayList<>();
         for(List<DefaultTile> col : columnsList){
