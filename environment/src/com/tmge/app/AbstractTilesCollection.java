@@ -29,6 +29,8 @@ public abstract class AbstractTilesCollection {
 
     public abstract int swap(Point firstPoint, Point secondPoint);
 
+    public abstract void getMatchedTilesPositions(DefaultTile tile, Set<DefaultTile> tiles);
+
     public void addTileChangeListener(Consumer<TileChange> consumer) {
         getTileChangeListeners().add(consumer);
     }
