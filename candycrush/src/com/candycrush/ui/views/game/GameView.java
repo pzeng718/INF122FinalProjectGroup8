@@ -2,6 +2,7 @@ package com.candycrush.ui.views.game;
 
 import com.candycrush.Game;
 import com.candycrush.app.SquareBoard;
+import com.candycrush.ui.views.game.dialog.LostDialog;
 import com.candycrush.ui.views.game.dialog.WinDialog;
 import com.candycrush.ui.views.menu.MenuView;
 import com.candycrush.ui.views.menu.dialog.StartGameOptions;
@@ -235,15 +236,38 @@ public class GameView extends BorderPane {
             if (t1 != null) {
                 scoreLabel.setText("Score: " + t1.intValue());
                 if (t1.intValue() >= getStartGameOptions().getLevel().getObjectiveScore()) {
-                    new WinDialog(player, Game.getInstance().getStageManager().getStage()).init().showAndWait().ifPresent(aBoolean -> {
+                    if (isSinglePlayer()) {
+                        int currentLevel = getStartGameOptions().getLevel().getId();
+                        if (getStartGameOptions().getFirstPlayer().getLevel() <= currentLevel) {
+                            getStartGameOptions().getFirstPlayer().setLevel(currentLevel + 1);
+                        }
+                    }
+                    new WinDialog(player, Game.getInstance().getStageManager().getStage()).init().showAndWait();
+                    Game.getInstance().getStageManager().loadView(new MenuView().init());
+                }
+            }
+        });
+        Label movesLabel = UIComponents.createLabel("Moves: 0");
+        player.currentMovesProperty().addListener((observableValue, s, t1) -> {
+            if (t1 != null) {
+                scoreLabel.setText("Moves: " + t1.intValue());
+                if (t1.intValue() >= getStartGameOptions().getLevel().getObjectiveMoves()) {
+                    if (isSinglePlayer() ||
+                            (getStartGameOptions().getSecondPlayer().getCurrentMoves() >= getStartGameOptions().getLevel().getObjectiveMoves() &&
+                                    getStartGameOptions().getFirstPlayer().getCurrentMoves() >= getStartGameOptions().getLevel().getObjectiveMoves())) {
+                        new LostDialog(Game.getInstance().getStageManager().getStage()).init().showAndWait();
                         Game.getInstance().getStageManager().loadView(new MenuView().init());
-                    });
+                    }
                 }
             }
         });
         content.getChildren().addAll(UIComponents.createTitleLabel(player.getUsername()),
-                scoreLabel);
+                scoreLabel, movesLabel);
         return content;
+    }
+
+    private boolean isSinglePlayer() {
+        return getStartGameOptions().getSecondPlayer() == null;
     }
 
     private void addGlowStyle(Point point) {

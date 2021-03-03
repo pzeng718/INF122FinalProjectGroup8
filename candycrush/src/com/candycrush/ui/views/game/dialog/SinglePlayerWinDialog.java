@@ -13,11 +13,11 @@ import java.util.Optional;
  * @author vladshaternik on 3/2/21
  */
 @Getter
-public class WinDialog extends AbstractDialog<Boolean> {
+public class SinglePlayerWinDialog extends AbstractDialog<Boolean> {
 
     private final DefaultPlayer player;
 
-    public WinDialog(DefaultPlayer player, Window window) {
+    public SinglePlayerWinDialog(DefaultPlayer player, Window window) {
         super(window);
         this.player = player;
     }

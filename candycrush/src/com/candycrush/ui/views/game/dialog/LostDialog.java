@@ -13,13 +13,11 @@ import java.util.Optional;
  * @author vladshaternik on 3/2/21
  */
 @Getter
-public class WinDialog extends AbstractDialog<Boolean> {
+public class LostDialog extends AbstractDialog<Boolean> {
 
-    private final DefaultPlayer player;
 
-    public WinDialog(DefaultPlayer player, Window window) {
+    public LostDialog(Window window) {
         super(window);
-        this.player = player;
     }
 
     @Override
@@ -39,11 +37,11 @@ public class WinDialog extends AbstractDialog<Boolean> {
 
     @Override
     protected Node buildContent() {
-        return createVBoxForNodes(UIComponents.createTitleLabel(getPlayer().getUsername() + " Wins!"));
+        return createVBoxForNodes(UIComponents.createTitleLabel("Lost! Out of moves."));
     }
 
     @Override
     protected String getTitleString() {
-        return getPlayer().getUsername() + " Wins!";
+        return "Lost!";
     }
 }

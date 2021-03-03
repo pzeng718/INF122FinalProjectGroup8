@@ -34,7 +34,8 @@ public abstract class AbstractDialog<R> extends Dialog<R> {
         setTitle(getTitleString());
         Node content = buildContent();
         String okButtonString = getButtonOkString();
-        ButtonType[] buttonTypes = UIComponents.buildDialog(this, getOwner(), content, okButtonString, getButtonCancelString());
+        String cancelButtonString = getButtonCancelString();
+        ButtonType[] buttonTypes = UIComponents.buildDialog(this, getOwner(), content, okButtonString, cancelButtonString);
         setButtonTypes(buttonTypes);
         int buttonIndexCounter = 0;
         if (okButtonString != null && !okButtonString.isEmpty()) {
@@ -43,9 +44,11 @@ public abstract class AbstractDialog<R> extends Dialog<R> {
                 okButton.addEventFilter(ActionEvent.ACTION, this::addOkButtonFilter);
             }
         }
-        Button cancelButton = (Button) getDialogPane().lookupButton(buttonTypes[buttonIndexCounter]);
-        if (cancelButton != null) {
-            cancelButton.addEventFilter(ActionEvent.ACTION, this::addCancelButtonFilter);
+        if (cancelButtonString != null && !cancelButtonString.isEmpty()) {
+            Button cancelButton = (Button) getDialogPane().lookupButton(buttonTypes[buttonIndexCounter]);
+            if (cancelButton != null) {
+                cancelButton.addEventFilter(ActionEvent.ACTION, this::addCancelButtonFilter);
+            }
         }
         setResultConverter(param -> {
             if (getDelayFuture() != null) {
@@ -63,7 +66,7 @@ public abstract class AbstractDialog<R> extends Dialog<R> {
     protected abstract String getTitleString();
 
     protected String getButtonOkString() {
-        return "Save";
+        return "Ok";
     }
 
     protected String getButtonCancelString() {
