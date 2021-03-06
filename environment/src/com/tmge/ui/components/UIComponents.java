@@ -83,11 +83,13 @@ public class UIComponents {
             okButton.getStyleClass().addAll(StyleClass.BUTTON, StyleClass.INFO_BUTTON);
             buttonTypeList.add(buttonTypeCreate);
         }
-        ButtonType buttonTypeCancel = new ButtonType(buttonCancel, ButtonBar.ButtonData.CANCEL_CLOSE);
-        dialog.getDialogPane().getButtonTypes().add(buttonTypeCancel);
-        final Button cancelButton = (Button) dialog.getDialogPane().lookupButton(buttonTypeCancel);
-        cancelButton.getStyleClass().addAll(StyleClass.BUTTON, StyleClass.DANGER_BUTTON);
-        buttonTypeList.add(buttonTypeCancel);
+        if (buttonCancel != null && !buttonCancel.isEmpty()) {
+            ButtonType buttonTypeCancel = new ButtonType(buttonCancel, ButtonBar.ButtonData.CANCEL_CLOSE);
+            dialog.getDialogPane().getButtonTypes().add(buttonTypeCancel);
+            final Button cancelButton = (Button) dialog.getDialogPane().lookupButton(buttonTypeCancel);
+            cancelButton.getStyleClass().addAll(StyleClass.BUTTON, StyleClass.DANGER_BUTTON);
+            buttonTypeList.add(buttonTypeCancel);
+        }
         return buttonTypeList.toArray(new ButtonType[0]);
     }
 }

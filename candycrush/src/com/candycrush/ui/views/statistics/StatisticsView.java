@@ -28,7 +28,7 @@ public class StatisticsView extends BorderPane {
         this.headingLabel = UIComponents.createTitleLabel("PLAYER'S STATISTICS");
         this.levelLabel = UIComponents.createLabel("Player's Level");
         this.scoreLabel = UIComponents.createLabel("Player's Score");
-        this.scoreValueLabel = UIComponents.createLabel(String.valueOf(player.getScore()));
+        this.scoreValueLabel = UIComponents.createLabel(String.valueOf(player.getTotalScore()));
         this.levelValueLabel = UIComponents.createLabel(String.valueOf(player.getLevel()));
         this.backButton = UIComponents.createInfoButton("BACK");
     }

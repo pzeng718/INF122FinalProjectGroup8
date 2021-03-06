@@ -25,9 +25,9 @@ public abstract class AbstractTilesCollection {
 
     public abstract Optional<Point> getPointByTile(DefaultTile point);
 
-    public abstract void swap(DefaultTile firstTile, DefaultTile secondTile);
+    public abstract int swap(DefaultTile firstTile, DefaultTile secondTile);
 
-    public abstract void swap(Point firstPoint, Point secondPoint);
+    public abstract int swap(Point firstPoint, Point secondPoint);
 
     public void addTileChangeListener(Consumer<TileChange> consumer) {
         getTileChangeListeners().add(consumer);
