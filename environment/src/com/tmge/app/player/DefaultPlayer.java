@@ -1,8 +1,6 @@
 package com.tmge.app.player;
 
-import com.google.gson.annotations.SerializedName;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,19 +18,15 @@ import java.util.UUID;
 public class DefaultPlayer {
 
     @Builder.Default
-    @SerializedName("id")
     private final String id = UUID.randomUUID().toString();
 
     @Builder.Default
-    @SerializedName("username")
     private final String username = "";
 
     @Builder.Default
-    @SerializedName("level")
     private int level = 1;
 
     @Builder.Default
-    @SerializedName("totalScore")
     private int totalScore = 0;
 
     private final transient SimpleIntegerProperty currentScore = new SimpleIntegerProperty();

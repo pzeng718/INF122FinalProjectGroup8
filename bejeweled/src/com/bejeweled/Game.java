@@ -2,6 +2,7 @@ package com.bejeweled;
 
 
 import com.bejeweled.ui.StageManager;
+import com.tmge.app.player.PlayerManager;
 import com.tmge.ui.AbstractStageManager;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,9 +18,10 @@ import javafx.application.Application;
 public class Game {
 
     private AbstractStageManager stageManager;
+    private final PlayerManager playerManager;
 
-    private Game(AppSettings settings) {
-
+    private Game() {
+        this.playerManager = new PlayerManager();
     }
 
     private static Game instance;
@@ -28,8 +30,8 @@ public class Game {
         return instance;
     }
 
-    public static void start(AppSettings settings) {
-        instance = new Game(settings);
+    public static void start() {
+        instance = new Game();
         getInstance().load();
     }
 

@@ -6,7 +6,6 @@ package com.bejeweled;
 public class Launcher {
 
     public static void main(String... args) {
-        AppSettings settings = new AppSettings();
-        Game.start(settings);
+        Game.start();
     }
 }

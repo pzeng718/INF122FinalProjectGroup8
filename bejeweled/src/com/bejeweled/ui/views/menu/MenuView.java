@@ -1,10 +1,10 @@
-package com.candycrush.ui.views.menu;
+package com.bejeweled.ui.views.menu;
 
-import com.candycrush.Game;
-import com.candycrush.ui.views.game.GameView;
-import com.candycrush.ui.views.menu.dialog.StartGameDialog;
-import com.candycrush.ui.views.select_player.SelectPlayerView;
-import com.candycrush.ui.views.statistics.StatisticsView;
+import com.bejeweled.Game;
+import com.bejeweled.ui.views.game.GameView;
+import com.bejeweled.ui.views.menu.dialog.StartGameDialog;
+import com.bejeweled.ui.views.select_player.SelectPlayerView;
+import com.bejeweled.ui.views.statistics.StatisticsView;
 import com.tmge.app.player.DefaultPlayer;
 import com.tmge.ui.components.UIComponents;
 import com.tmge.ui.views.menu.DefaultMenuView;
