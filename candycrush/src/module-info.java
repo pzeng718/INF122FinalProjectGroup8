@@ -9,4 +9,5 @@
     requires java.desktop;
 
     exports com.candycrush.ui;
+    exports com.candycrush to games;
 }

@@ -9,4 +9,5 @@
     requires java.desktop;
 
     exports com.bejeweled.ui;
+    exports com.bejeweled to games;
 }
