@@ -13,10 +13,12 @@ import java.io.IOException;
 @Getter
 @Log
 public enum TileType implements TileTypeInfo {
-    DIAMOND("diamond.png", "Diamond"),
-    CRYSTAL("crystal.png", "Crystal"),
-    COIN("coin.png", "Coin"),
-    CANDY("candy.png", "Candy")
+
+
+    DIAMOND("diamond-pictures/diamond1.png", "Diamond"),
+    CROWN("crown-pictures/crown3.png", "Crown"),
+    EGG("egg-pictures/egg2.png", "Egg"),
+    COIN("coin-pictures/coin1.png", "Coin")
     ;
 
     private final String src;
