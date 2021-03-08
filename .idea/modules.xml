@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/bejeweled/bejeweled.iml" filepath="$PROJECT_DIR$/bejeweled/bejeweled.iml" />
       <module fileurl="file://$PROJECT_DIR$/candycrush/candycrush.iml" filepath="$PROJECT_DIR$/candycrush/candycrush.iml" />
       <module fileurl="file://$PROJECT_DIR$/environment/environment.iml" filepath="$PROJECT_DIR$/environment/environment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/games/games.iml" filepath="$PROJECT_DIR$/games/games.iml" />
     </modules>
   </component>
 </project>

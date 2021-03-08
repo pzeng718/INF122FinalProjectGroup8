@@ -1,11 +1,12 @@
-package com.candycrush.ui.views.game;
+package com.bejeweled.ui.views.game;
 
-import com.candycrush.Game;
-import com.candycrush.app.SquareBoard;
-import com.candycrush.ui.views.game.dialog.LostDialog;
-import com.candycrush.ui.views.game.dialog.WinDialog;
-import com.candycrush.ui.views.menu.MenuView;
-import com.candycrush.ui.views.menu.dialog.StartGameOptions;
+import com.bejeweled.Game;
+import com.bejeweled.app.SquareBoard;
+import com.bejeweled.app.SquareTilesCollection;
+import com.bejeweled.ui.views.game.dialog.LostDialog;
+import com.bejeweled.ui.views.game.dialog.WinDialog;
+import com.bejeweled.ui.views.menu.MenuView;
+import com.bejeweled.ui.views.menu.dialog.StartGameOptions;
 import com.tmge.app.player.DefaultPlayer;
 import com.tmge.app.tile.DefaultTile;
 import com.tmge.app.tile.TileChangeType;
@@ -172,12 +173,12 @@ public class GameView extends BorderPane {
         top.setPrefHeight(50);
         top.setAlignment(Pos.CENTER);
         top.setStyle("-fx-background-color: rgb(100, 100, 150)");
-        Button mainMenuButton = UIComponents.createDangerButton("Main Menu");
-        mainMenuButton.setOnAction(actionEvent -> {
+        Button giveUpButton = UIComponents.createDangerButton("Give UP");
+        giveUpButton.setOnAction(actionEvent -> {
             Game.getInstance().getStageManager().loadView(new MenuView().init());
         });
-        top.getChildren().addAll(UIComponents.createTitleLabel("Objective: Score-" + getStartGameOptions().getLevel().getObjectiveScore() + "|Moves-" + getStartGameOptions().getLevel().getObjectiveMoves()),
-                mainMenuButton);
+        top.getChildren().addAll(UIComponents.createTitleLabel("Objective: Remove All Tiles (Tiles amount below " + getStartGameOptions().getLevel().getTilesLeft() + ")"),
+                giveUpButton);
         setTop(top);
         setCurrentPlayer(getStartGameOptions().getFirstPlayer());
         if (getStartGameOptions().getSecondPlayer() != null) {
@@ -213,38 +214,30 @@ public class GameView extends BorderPane {
             }
         });
         content.setAlignment(Pos.CENTER);
-        Label scoreLabel = UIComponents.createLabel("Score: 0");
+        Label scoreLabel = UIComponents.createLabel("Tiles Removed: 0");
         player.currentScoreProperty().addListener((observableValue, s, t1) -> {
             if (t1 != null) {
-                scoreLabel.setText("Score: " + t1.intValue());
-                if (t1.intValue() >= getStartGameOptions().getLevel().getObjectiveScore()) {
+                scoreLabel.setText("Tiles Removed: " + t1.intValue());
+                if (((SquareTilesCollection) getSquareBoard().getTilesCollection()).getTilesLeft() <
+                        getStartGameOptions().getLevel().getTilesLeft()) {
                     if (isSinglePlayer()) {
                         int currentLevel = getStartGameOptions().getLevel().getId();
                         if (getStartGameOptions().getFirstPlayer().getLevel() <= currentLevel) {
                             getStartGameOptions().getFirstPlayer().setLevel(currentLevel + 1);
                         }
+                        new WinDialog(player, Game.getInstance().getStageManager().getStage()).init().showAndWait();
+                    } else {
+                        if (getStartGameOptions().getFirstPlayer().getCurrentScore() < getStartGameOptions().getSecondPlayer().getCurrentScore()) {
+                            new WinDialog(getStartGameOptions().getSecondPlayer(), Game.getInstance().getStageManager().getStage()).init().showAndWait();
+                        } else {
+                            new WinDialog(getStartGameOptions().getFirstPlayer(), Game.getInstance().getStageManager().getStage()).init().showAndWait();
+                        }
                     }
-                    new WinDialog(player, Game.getInstance().getStageManager().getStage()).init().showAndWait();
                     Game.getInstance().getStageManager().loadView(new MenuView().init());
                 }
             }
         });
-        Label movesLabel = UIComponents.createLabel("Moves: 0");
-        player.currentMovesProperty().addListener((observableValue, s, t1) -> {
-            if (t1 != null) {
-                movesLabel.setText("Moves: " + t1.intValue());
-                if (t1.intValue() >= getStartGameOptions().getLevel().getObjectiveMoves()) {
-                    if (isSinglePlayer() ||
-                            (getStartGameOptions().getSecondPlayer().getCurrentMoves() >= getStartGameOptions().getLevel().getObjectiveMoves() &&
-                                    getStartGameOptions().getFirstPlayer().getCurrentMoves() >= getStartGameOptions().getLevel().getObjectiveMoves())) {
-                        new LostDialog(Game.getInstance().getStageManager().getStage()).init().showAndWait();
-                        Game.getInstance().getStageManager().loadView(new MenuView().init());
-                    }
-                }
-            }
-        });
-        content.getChildren().addAll(UIComponents.createTitleLabel(player.getUsername()),
-                scoreLabel, movesLabel);
+        content.getChildren().addAll(UIComponents.createTitleLabel(player.getUsername()), scoreLabel);
         return content;
     }
 

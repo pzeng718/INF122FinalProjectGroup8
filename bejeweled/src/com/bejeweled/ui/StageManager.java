@@ -1,9 +1,9 @@
 package com.bejeweled.ui;
 
 import com.bejeweled.Game;
+import com.bejeweled.ui.views.select_player.SelectPlayerView;
 import com.tmge.ui.AbstractStageManager;
 import javafx.scene.Parent;
-import javafx.scene.layout.BorderPane;
 
 /**
  * @author vladshaternik on 2/21/21
@@ -17,6 +17,6 @@ public class StageManager extends AbstractStageManager {
 
     @Override
     protected Parent firstView() {
-        return new BorderPane();
+        return new SelectPlayerView(Game.getInstance().getPlayerManager().getPlayers()).init();
     }
 }

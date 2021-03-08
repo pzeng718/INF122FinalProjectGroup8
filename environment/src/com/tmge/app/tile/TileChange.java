@@ -3,7 +3,7 @@ package com.tmge.app.tile;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * @author vladshaternik on 2/28/21

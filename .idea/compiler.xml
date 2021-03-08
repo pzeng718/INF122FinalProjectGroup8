@@ -13,8 +13,10 @@
         <module name="TMGE" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="TMGEProject" target="11" />
-    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="bejeweled" options="" />
+    </option>
   </component>
 </project>
