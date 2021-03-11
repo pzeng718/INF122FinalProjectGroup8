@@ -149,14 +149,15 @@ public class SquareTilesCollection extends AbstractTilesCollection {
             notifyTileChangeListeners(new TileChange(firstTile, secondPoint, TileChangeType.SWAPPED));
             Set<DefaultTile> firstTileMatchedTiles = new HashSet<>();
             getMatchedTilesPositions(firstTile, firstTileMatchedTiles);
+            int removedTiles = 0;
             if (firstTileMatchedTiles.size() > 2) {
                 for (DefaultTile matchedTile : firstTileMatchedTiles) {
                     remove(matchedTile);
+                    removedTiles++;
                 }
             }
             Set<DefaultTile> secondTileMatchedPoints = new HashSet<>();
             getMatchedTilesPositions(secondTile, secondTileMatchedPoints);
-            int removedTiles = 0;
             if (secondTileMatchedPoints.size() > 2) {
                 for (DefaultTile matchedTail : secondTileMatchedPoints) {
                     remove(matchedTail);

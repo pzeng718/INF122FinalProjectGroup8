@@ -9,9 +9,9 @@ import java.util.Optional;
 
 @Getter
 public enum Level {
-    ONE (1, TileType.DIAMOND, 1500, 20, 10, 5),
-    TWO (2, TileType.CRYSTAL, 2000, 15, 15, 15),
-    THREE (3, TileType.COIN, 2500, 10, 10, 10);
+    ONE (1, TileType.DIAMOND, 1500, 20, 8, 4),
+    TWO (2, TileType.CRYSTAL, 2000, 15, 8, 6),
+    THREE (3, TileType.COIN, 2500, 10, 8, 8);
 
     private final int id;
     private final TileType objectiveTileType;

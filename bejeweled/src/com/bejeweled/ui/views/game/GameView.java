@@ -4,7 +4,6 @@ import com.bejeweled.Game;
 import com.bejeweled.app.SquareBoard;
 import com.bejeweled.app.SquareTilesCollection;
 import com.bejeweled.app.player.Player;
-import com.bejeweled.ui.views.game.dialog.LostDialog;
 import com.bejeweled.ui.views.game.dialog.WinDialog;
 import com.bejeweled.ui.views.menu.MenuView;
 import com.bejeweled.ui.views.menu.dialog.StartGameOptions;
@@ -136,8 +135,7 @@ public class GameView extends BorderPane {
                                 getSelectedTileNeighbours().clear();
                                 setSelectedTileViewComponent(null);
                                 swapped = true;
-                                getCurrentPlayer().setCurrentMoves(getCurrentPlayer().getCurrentMoves() + 1);
-                                getCurrentPlayer().setCurrentScore(getCurrentPlayer().getCurrentScore() + score);
+                                getCurrentPlayer().setTilesDestroyed(getCurrentPlayer().getTilesDestroyed() + score);
                                 toggleCurrentPlayer();
                             }
                         }
@@ -186,9 +184,9 @@ public class GameView extends BorderPane {
                 setCurrentPlayer(getStartGameOptions().getSecondPlayer());
             }
         }
-        getStartGameOptions().getFirstPlayer().setCurrentScore(0);
+        getStartGameOptions().getFirstPlayer().setTilesDestroyed(0);
         if (getStartGameOptions().getSecondPlayer() != null) {
-            getStartGameOptions().getSecondPlayer().setCurrentScore(0);
+            getStartGameOptions().getSecondPlayer().setTilesDestroyed(0);
         }
         return this;
     }
@@ -215,7 +213,7 @@ public class GameView extends BorderPane {
         });
         content.setAlignment(Pos.CENTER);
         Label scoreLabel = UIComponents.createLabel("Tiles Removed: 0");
-        player.currentScoreProperty().addListener((observableValue, s, t1) -> {
+        player.tilesDestroyedProperty().addListener((observableValue, s, t1) -> {
             if (t1 != null) {
                 scoreLabel.setText("Tiles Removed: " + t1.intValue());
                 if (((SquareTilesCollection) getSquareBoard().getTilesCollection()).getTilesLeft() <
@@ -227,7 +225,7 @@ public class GameView extends BorderPane {
                         }
                         new WinDialog(player, Game.getInstance().getStageManager().getStage()).init().showAndWait();
                     } else {
-                        if (getStartGameOptions().getFirstPlayer().getCurrentScore() < getStartGameOptions().getSecondPlayer().getCurrentScore()) {
+                        if (getStartGameOptions().getFirstPlayer().getTilesDestroyed() < getStartGameOptions().getSecondPlayer().getTilesDestroyed()) {
                             new WinDialog(getStartGameOptions().getSecondPlayer(), Game.getInstance().getStageManager().getStage()).init().showAndWait();
                         } else {
                             new WinDialog(getStartGameOptions().getFirstPlayer(), Game.getInstance().getStageManager().getStage()).init().showAndWait();

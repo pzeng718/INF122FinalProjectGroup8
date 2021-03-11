@@ -5,31 +5,17 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class Player extends DefaultPlayer {
 
-    private final transient SimpleIntegerProperty currentScore = new SimpleIntegerProperty();
+    private final transient SimpleIntegerProperty tilesDestroyed = new SimpleIntegerProperty();
 
-    private final transient SimpleIntegerProperty currentMoves = new SimpleIntegerProperty();
-
-    public int getCurrentScore() {
-        return currentScore.get();
+    public int getTilesDestroyed() {
+        return tilesDestroyed.get();
     }
 
-    public SimpleIntegerProperty currentScoreProperty() {
-        return currentScore;
+    public SimpleIntegerProperty tilesDestroyedProperty() {
+        return tilesDestroyed;
     }
 
-    public void setCurrentScore(int currentScore) {
-        this.currentScore.set(currentScore);
-    }
-
-    public int getCurrentMoves() {
-        return currentMoves.get();
-    }
-
-    public SimpleIntegerProperty currentMovesProperty() {
-        return currentMoves;
-    }
-
-    public void setCurrentMoves(int currentMoves) {
-        this.currentMoves.set(currentMoves);
+    public void setTilesDestroyed(int tilesDestroyed) {
+        this.tilesDestroyed.set(tilesDestroyed);
     }
 }

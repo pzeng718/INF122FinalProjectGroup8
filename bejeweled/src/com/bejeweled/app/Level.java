@@ -9,9 +9,9 @@ import java.util.Optional;
 
 @Getter
 public enum Level {
-    ONE(1,8, 10, 5),
-    TWO(2,6, 15, 15),
-    THREE(3,4, 10, 10);
+    ONE(1,8, 8, 4),
+    TWO(2,6, 8, 6),
+    THREE(3,4, 8, 8);
 
     private final int id;
     private final int tilesLeft;
