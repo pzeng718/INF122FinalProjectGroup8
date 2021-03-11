@@ -10,8 +10,8 @@ import java.awt.Point;
  */
 @Getter
 @RequiredArgsConstructor
-public class TileChange {
-    private final DefaultTile tile;
+public class TileChange<T extends DefaultTile> {
+    private final T tile;
     private final Point point;
     private final TileChangeType changeType;
 }

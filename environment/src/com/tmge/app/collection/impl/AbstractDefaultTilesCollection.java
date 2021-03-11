@@ -16,7 +16,7 @@ import java.util.*;
 
 @Getter
 @Setter(AccessLevel.PRIVATE)
-public abstract class AbstractDefaultTilesCollection extends AbstractTilesCollection {
+public abstract class AbstractDefaultTilesCollection extends AbstractTilesCollection<DefaultTile> {
 
     private final DefaultTilesCollectionHelper defaultTilesCollectionHelper;
     private final List<List<DefaultTile>> columnsList;
@@ -51,14 +51,14 @@ public abstract class AbstractDefaultTilesCollection extends AbstractTilesCollec
             if (col.size() < getHeight()) {
                 if (point.y >= 0 && point.y < col.size()) {
                     col.add(point.y, tile);
-                    notifyTileChangeListeners(new TileChange(tile, point, TileChangeType.CREATED));
+                    notifyTileChangeListeners(new TileChange<>(tile, point, TileChangeType.CREATED));
                     for (int i = point.y + 1; i < col.size(); i++) {
                         DefaultTile tileToNotify = col.get(i);
-                        notifyTileChangeListeners(new TileChange(tileToNotify, new Point(point.x, i), TileChangeType.MOVED));
+                        notifyTileChangeListeners(new TileChange<>(tileToNotify, new Point(point.x, i), TileChangeType.MOVED));
                     }
                 } else {
                     col.add(tile);
-                    notifyTileChangeListeners(new TileChange(tile, new Point(point.x, col.size() - 1), TileChangeType.CREATED));
+                    notifyTileChangeListeners(new TileChange<>(tile, new Point(point.x, col.size() - 1), TileChangeType.CREATED));
                 }
             }
         }
@@ -70,7 +70,7 @@ public abstract class AbstractDefaultTilesCollection extends AbstractTilesCollec
             List<DefaultTile> rows = getColumnsList().get(colNum);
             if (rows.size() < getHeight()) {
                 rows.add(tile);
-                notifyTileChangeListeners(new TileChange(tile, new Point(colNum, rows.size() - 1), TileChangeType.CREATED));
+                notifyTileChangeListeners(new TileChange<>(tile, new Point(colNum, rows.size() - 1), TileChangeType.CREATED));
             }
         }
     }
@@ -84,10 +84,10 @@ public abstract class AbstractDefaultTilesCollection extends AbstractTilesCollec
                 List<DefaultTile> col = getColumnsList().get(point.x);
                 if (point.y >= 0 && point.y < col.size()) {
                     DefaultTile removedTile = col.remove(point.y);
-                    notifyTileChangeListeners(new TileChange(removedTile, point, TileChangeType.REMOVED));
+                    notifyTileChangeListeners(new TileChange<>(removedTile, point, TileChangeType.REMOVED));
                     for (int i = point.y; i < col.size(); i++) {
                         DefaultTile currentTile = col.get(i);
-                        notifyTileChangeListeners(new TileChange(currentTile, new Point(point.x, i), TileChangeType.MOVED));
+                        notifyTileChangeListeners(new TileChange<>(currentTile, new Point(point.x, i), TileChangeType.MOVED));
                     }
                 }
             }
@@ -150,7 +150,7 @@ public abstract class AbstractDefaultTilesCollection extends AbstractTilesCollec
                 firstCol.set(firstPoint.y, secondTile);
                 secondCol.set(secondPoint.y, firstTile);
             }
-            notifyTileChangeListeners(new TileChange(firstTile, secondPoint, TileChangeType.SWAPPED));
+            notifyTileChangeListeners(new TileChange<>(firstTile, secondPoint, TileChangeType.SWAPPED));
 
             Set<DefaultTile> firstTileMatchedTiles = new HashSet<>();
             getDefaultTilesCollectionHelper().getMatchedTiles(firstTile, firstTileMatchedTiles);
