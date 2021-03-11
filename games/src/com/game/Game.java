@@ -7,8 +7,8 @@ import lombok.Getter;
  */
 @Getter
 public enum Game {
-    CANDY_CRUSH("Candy Crush", com.candycrush.Launcher.class),
-    BEJEWELED("Bejeweled", com.bejeweled.Launcher.class),
+    MATCHINGTON("Matchington", com.matchington.Launcher.class),
+    BEJEWELED("Block Puzzle", com.block_puzzle.Launcher.class),
     ;
 
     private final String name;
