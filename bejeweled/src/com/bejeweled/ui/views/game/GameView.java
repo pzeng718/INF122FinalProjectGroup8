@@ -3,6 +3,7 @@ package com.bejeweled.ui.views.game;
 import com.bejeweled.Game;
 import com.bejeweled.app.SquareBoard;
 import com.bejeweled.app.SquareTilesCollection;
+import com.bejeweled.app.SwapResponseImpl;
 import com.bejeweled.app.player.Player;
 import com.bejeweled.ui.views.game.dialog.WinDialog;
 import com.bejeweled.ui.views.menu.MenuView;
@@ -131,11 +132,11 @@ public class GameView extends BorderPane {
                         if (oldTilePointOptional.isPresent()) {
                             Point oldTilePoint = oldTilePointOptional.get();
                             if (getSelectedTileNeighbours().contains(newTilePoint)) {
-                                int score = getSquareBoard().getTilesCollection().swap(oldTilePoint, newTilePoint);
+                                SwapResponseImpl swapResponse = (SwapResponseImpl) getSquareBoard().getTilesCollection().swap(oldTilePoint, newTilePoint);
                                 getSelectedTileNeighbours().clear();
                                 setSelectedTileViewComponent(null);
                                 swapped = true;
-                                getCurrentPlayer().setTilesDestroyed(getCurrentPlayer().getTilesDestroyed() + score);
+                                getCurrentPlayer().setTilesDestroyed(getCurrentPlayer().getTilesDestroyed() + swapResponse.getTilesRemoved());
                                 toggleCurrentPlayer();
                             }
                         }
@@ -163,9 +164,9 @@ public class GameView extends BorderPane {
         getBoardGridPane().setVgap(5);
         getBoardGridPane().setHgap(5);
         setCenter(getBoardGridPane());
-        setRight(createPlayerView(getStartGameOptions().getFirstPlayer()));
-        if (getStartGameOptions().getSecondPlayer() != null) {
-            setLeft(createPlayerView(getStartGameOptions().getSecondPlayer()));
+        setRight(createPlayerView(getFirstPlayer()));
+        if (getSecondPlayer() != null) {
+            setLeft(createPlayerView(getSecondPlayer()));
         }
         HBox top = new HBox(10);
         top.setPrefHeight(50);
@@ -178,24 +179,28 @@ public class GameView extends BorderPane {
         top.getChildren().addAll(UIComponents.createTitleLabel("Objective: Remove All Tiles (Tiles amount below " + getStartGameOptions().getLevel().getTilesLeft() + ")"),
                 giveUpButton);
         setTop(top);
-        setCurrentPlayer(getStartGameOptions().getFirstPlayer());
-        if (getStartGameOptions().getSecondPlayer() != null) {
+        setCurrentPlayer(getFirstPlayer());
+        if (getSecondPlayer() != null) {
             if (Math.random() < .5) {
-                setCurrentPlayer(getStartGameOptions().getSecondPlayer());
+                setCurrentPlayer(getSecondPlayer());
             }
         }
-        getStartGameOptions().getFirstPlayer().setTilesDestroyed(0);
-        if (getStartGameOptions().getSecondPlayer() != null) {
-            getStartGameOptions().getSecondPlayer().setTilesDestroyed(0);
+        getFirstPlayer().setTilesDestroyed(0);
+        if (getSecondPlayer() != null) {
+            getSecondPlayer().setTilesDestroyed(0);
         }
         return this;
     }
 
+    private Player getSecondPlayer() {
+        return getStartGameOptions().getSecondPlayer();
+    }
+
     private void toggleCurrentPlayer() {
-        if (getStartGameOptions().getSecondPlayer() != null) {
-            setCurrentPlayer(getCurrentPlayer().equals(getStartGameOptions().getFirstPlayer()) ?
-                    getStartGameOptions().getSecondPlayer() :
-                    getStartGameOptions().getFirstPlayer());
+        if (getSecondPlayer() != null) {
+            setCurrentPlayer(getCurrentPlayer().equals(getFirstPlayer()) ?
+                    getSecondPlayer() :
+                    getFirstPlayer());
         }
     }
 
@@ -220,15 +225,16 @@ public class GameView extends BorderPane {
                         getStartGameOptions().getLevel().getTilesLeft()) {
                     if (isSinglePlayer()) {
                         int currentLevel = getStartGameOptions().getLevel().getId();
-                        if (getStartGameOptions().getFirstPlayer().getLevel() <= currentLevel) {
-                            getStartGameOptions().getFirstPlayer().setLevel(currentLevel + 1);
+                        if (getFirstPlayer().getLevel() <= currentLevel) {
+                            getFirstPlayer().setLevel(currentLevel + 1);
+                            getFirstPlayer().setTotalScore(getFirstPlayer().getTotalScore() + getFirstPlayer().getTilesDestroyed());
                         }
                         new WinDialog(player, Game.getInstance().getStageManager().getStage()).init().showAndWait();
                     } else {
-                        if (getStartGameOptions().getFirstPlayer().getTilesDestroyed() < getStartGameOptions().getSecondPlayer().getTilesDestroyed()) {
-                            new WinDialog(getStartGameOptions().getSecondPlayer(), Game.getInstance().getStageManager().getStage()).init().showAndWait();
+                        if (getFirstPlayer().getTilesDestroyed() < getSecondPlayer().getTilesDestroyed()) {
+                            new WinDialog(getSecondPlayer(), Game.getInstance().getStageManager().getStage()).init().showAndWait();
                         } else {
-                            new WinDialog(getStartGameOptions().getFirstPlayer(), Game.getInstance().getStageManager().getStage()).init().showAndWait();
+                            new WinDialog(getFirstPlayer(), Game.getInstance().getStageManager().getStage()).init().showAndWait();
                         }
                     }
                     Game.getInstance().getStageManager().loadView(new MenuView().init());
@@ -239,8 +245,12 @@ public class GameView extends BorderPane {
         return content;
     }
 
+    private Player getFirstPlayer() {
+        return getStartGameOptions().getFirstPlayer();
+    }
+
     private boolean isSinglePlayer() {
-        return getStartGameOptions().getSecondPlayer() == null;
+        return getSecondPlayer() == null;
     }
 
     private void addGlowStyle(Point point) {

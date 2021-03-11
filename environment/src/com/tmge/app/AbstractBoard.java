@@ -1,4 +1,5 @@
 package com.tmge.app;
+import com.tmge.app.collection.AbstractTilesCollection;
 import lombok.Getter;
 
 @Getter

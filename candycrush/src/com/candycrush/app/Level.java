@@ -9,20 +9,18 @@ import java.util.Optional;
 
 @Getter
 public enum Level {
-    ONE (1, TileType.DIAMOND, 1500, 20, 8, 4),
-    TWO (2, TileType.CRYSTAL, 2000, 15, 8, 6),
-    THREE (3, TileType.COIN, 2500, 10, 8, 8);
+    ONE (1, 1500, 20, 8, 4),
+    TWO (2, 2000, 15, 8, 6),
+    THREE (3, 2500, 10, 8, 8);
 
     private final int id;
-    private final TileType objectiveTileType;
     private final int objectiveScore; // The score player needs to reach to complete this level
     private final int objectiveMoves;
     private final int height;
     private final int width;
 
-    Level(int id, TileType objectiveTileType, int objectiveScore, int objectiveMoves, int height, int width) {
+    Level(int id, int objectiveScore, int objectiveMoves, int height, int width) {
         this.id = id;
-        this.objectiveTileType = objectiveTileType;
         this.objectiveScore = objectiveScore;
         this.objectiveMoves = objectiveMoves;
         this.height = height;

@@ -14,4 +14,6 @@
     exports com.tmge.ui.views.menu;
     exports com.tmge.app.tile;
     exports com.tmge.ui.components;
+    exports com.tmge.app.collection;
+    exports com.tmge.app.collection.impl;
 }

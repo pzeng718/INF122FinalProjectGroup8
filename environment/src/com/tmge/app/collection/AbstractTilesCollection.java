@@ -1,4 +1,4 @@
-package com.tmge.app;
+package com.tmge.app.collection;
 
 import com.tmge.app.tile.DefaultTile;
 import com.tmge.app.tile.TileChange;
@@ -25,9 +25,9 @@ public abstract class AbstractTilesCollection {
 
     public abstract Optional<Point> getPointByTile(DefaultTile point);
 
-    public abstract int swap(DefaultTile firstTile, DefaultTile secondTile);
+    public abstract SwapResponse swap(DefaultTile firstTile, DefaultTile secondTile);
 
-    public abstract int swap(Point firstPoint, Point secondPoint);
+    public abstract SwapResponse swap(Point firstPoint, Point secondPoint);
 
     public void addTileChangeListener(Consumer<TileChange> consumer) {
         getTileChangeListeners().add(consumer);
