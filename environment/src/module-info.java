@@ -2,7 +2,6 @@
  * @author vladshaternik on 2/21/21
  */module environment {
     requires lombok;
-    requires com.google.gson;
     requires javafx.controls;
     requires javafx.base;
     requires java.desktop;

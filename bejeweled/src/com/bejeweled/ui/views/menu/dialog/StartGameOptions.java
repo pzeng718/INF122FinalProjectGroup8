@@ -1,7 +1,7 @@
 package com.bejeweled.ui.views.menu.dialog;
 
 import com.bejeweled.app.Level;
-import com.tmge.app.player.DefaultPlayer;
+import com.bejeweled.app.player.Player;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +18,7 @@ public class StartGameOptions {
     @Builder.Default
     private final Level level = Level.ONE;
     @Builder.Default
-    private final DefaultPlayer firstPlayer = null;
+    private final Player firstPlayer = null;
     @Builder.Default
-    private final DefaultPlayer secondPlayer = null;
+    private final Player secondPlayer = null;
 }

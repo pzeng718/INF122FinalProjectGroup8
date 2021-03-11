@@ -1,6 +1,7 @@
 package com.bejeweled;
 
 
+import com.bejeweled.app.player.Player;
 import com.bejeweled.ui.StageManager;
 import com.tmge.app.player.PlayerManager;
 import com.tmge.ui.AbstractStageManager;
@@ -18,10 +19,10 @@ import javafx.application.Application;
 public class Game {
 
     private AbstractStageManager stageManager;
-    private final PlayerManager playerManager;
+    private final PlayerManager<Player> playerManager;
 
     private Game() {
-        this.playerManager = new PlayerManager();
+        this.playerManager = new PlayerManager<>();
     }
 
     private static Game instance;

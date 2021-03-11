@@ -12,11 +12,11 @@ import java.util.Optional;
  * @author vladshaternik on 2/21/21
  */
 @Getter
-public class PlayerManager implements Manager {
+public class PlayerManager<T extends DefaultPlayer> implements Manager {
 
-    private final List<DefaultPlayer> players;
+    private final List<T> players;
     @Setter
-    private DefaultPlayer currentPlayer;
+    private T currentPlayer;
 
     public PlayerManager() {
         this.players = new ArrayList<>();
@@ -37,7 +37,7 @@ public class PlayerManager implements Manager {
 
     }
 
-    public Optional<DefaultPlayer> getCurrentPlayer() {
+    public Optional<T> getCurrentPlayer() {
         return Optional.ofNullable(this.currentPlayer);
     }
 

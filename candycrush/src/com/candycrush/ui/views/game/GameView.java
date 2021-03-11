@@ -2,11 +2,11 @@ package com.candycrush.ui.views.game;
 
 import com.candycrush.Game;
 import com.candycrush.app.SquareBoard;
+import com.candycrush.app.player.Player;
 import com.candycrush.ui.views.game.dialog.LostDialog;
 import com.candycrush.ui.views.game.dialog.WinDialog;
 import com.candycrush.ui.views.menu.MenuView;
 import com.candycrush.ui.views.menu.dialog.StartGameOptions;
-import com.tmge.app.player.DefaultPlayer;
 import com.tmge.app.tile.DefaultTile;
 import com.tmge.app.tile.TileChangeType;
 import com.tmge.ui.components.StyleClass;
@@ -38,7 +38,7 @@ public class GameView extends BorderPane {
     private final TileGridPane boardGridPane;
     private final SimpleObjectProperty<TileViewComponent> selectedTileViewComponent;
     private final Set<Point> selectedTileNeighbours;
-    private final SimpleObjectProperty<DefaultPlayer> currentPlayer;
+    private final SimpleObjectProperty<Player> currentPlayer;
 
     public GameView(StartGameOptions startGameOptions) {
         this.startGameOptions = startGameOptions;
@@ -200,7 +200,7 @@ public class GameView extends BorderPane {
         }
     }
 
-    private Node createPlayerView(DefaultPlayer player) {
+    private Node createPlayerView(Player player) {
         VBox content = new VBox(10);
         content.setPrefWidth(200);
         currentPlayerProperty().addListener((observableValue, player1, t1) -> {
@@ -271,15 +271,15 @@ public class GameView extends BorderPane {
         this.selectedTileViewComponent.set(selectedTileViewComponent);
     }
 
-    public DefaultPlayer getCurrentPlayer() {
+    public Player getCurrentPlayer() {
         return currentPlayer.get();
     }
 
-    public SimpleObjectProperty<DefaultPlayer> currentPlayerProperty() {
+    public SimpleObjectProperty<Player> currentPlayerProperty() {
         return currentPlayer;
     }
 
-    public void setCurrentPlayer(DefaultPlayer currentPlayer) {
+    public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer.set(currentPlayer);
     }
 }

@@ -1,9 +1,7 @@
 package com.candycrush.app;
 
-import com.candycrush.Game;
 import com.candycrush.app.tile.TileType;
 import com.tmge.app.AbstractTilesCollection;
-import com.tmge.app.player.DefaultPlayer;
 import com.tmge.app.tile.DefaultTile;
 import com.tmge.app.tile.TileChange;
 import com.tmge.app.tile.TileChangeType;

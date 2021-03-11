@@ -18,43 +18,13 @@ import java.util.UUID;
 public class DefaultPlayer {
 
     @Builder.Default
-    private final String id = UUID.randomUUID().toString();
-
-    @Builder.Default
-    private final String username = "";
+    private String username = "";
 
     @Builder.Default
     private int level = 1;
 
     @Builder.Default
     private int totalScore = 0;
-
-    private final transient SimpleIntegerProperty currentScore = new SimpleIntegerProperty();
-    private final transient SimpleIntegerProperty currentMoves = new SimpleIntegerProperty();
-
-    public int getCurrentScore() {
-        return currentScore.get();
-    }
-
-    public SimpleIntegerProperty currentScoreProperty() {
-        return currentScore;
-    }
-
-    public void setCurrentScore(int currentScore) {
-        this.currentScore.set(currentScore);
-    }
-
-    public int getCurrentMoves() {
-        return currentMoves.get();
-    }
-
-    public SimpleIntegerProperty currentMovesProperty() {
-        return currentMoves;
-    }
-
-    public void setCurrentMoves(int currentMoves) {
-        this.currentMoves.set(currentMoves);
-    }
 
     @Override
     public String toString() {

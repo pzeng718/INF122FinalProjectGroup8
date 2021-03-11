@@ -2,8 +2,8 @@ package com.candycrush.ui.views.statistics;
 
 
 import com.candycrush.Game;
+import com.candycrush.app.player.Player;
 import com.candycrush.ui.views.menu.MenuView;
-import com.tmge.app.player.DefaultPlayer;
 import com.tmge.ui.components.UIComponents;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -13,7 +13,7 @@ import lombok.Getter;
 
 @Getter
 public class StatisticsView extends BorderPane {
-    private final DefaultPlayer player;
+    private final Player player;
     private final GridPane layout;
     private final Label headingLabel;
     private final Label levelLabel;
@@ -22,7 +22,7 @@ public class StatisticsView extends BorderPane {
     private final Label scoreValueLabel;
     private final Button backButton;
 
-    public StatisticsView(DefaultPlayer player) {
+    public StatisticsView(Player player) {
         this.player = player;
         this.layout = new GridPane();
         this.headingLabel = UIComponents.createTitleLabel("PLAYER'S STATISTICS");

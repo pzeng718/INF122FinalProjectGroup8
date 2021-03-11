@@ -1,6 +1,6 @@
 package com.candycrush.ui.views.game.dialog;
 
-import com.tmge.app.player.DefaultPlayer;
+import com.candycrush.app.player.Player;
 import com.tmge.ui.components.AbstractDialog;
 import com.tmge.ui.components.UIComponents;
 import javafx.scene.Node;
@@ -15,9 +15,9 @@ import java.util.Optional;
 @Getter
 public class SinglePlayerWinDialog extends AbstractDialog<Boolean> {
 
-    private final DefaultPlayer player;
+    private final Player player;
 
-    public SinglePlayerWinDialog(DefaultPlayer player, Window window) {
+    public SinglePlayerWinDialog(Player player, Window window) {
         super(window);
         this.player = player;
     }

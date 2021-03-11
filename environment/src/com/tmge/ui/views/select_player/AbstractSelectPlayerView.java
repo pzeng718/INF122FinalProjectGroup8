@@ -6,11 +6,8 @@ import com.tmge.ui.views.select_player.dialog.NewPlayerDialog;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 
@@ -20,27 +17,27 @@ import java.util.List;
  * @author vladshaternik on 2/21/21
  */
 @Getter
-public class DefaultSelectPlayerView extends VBox {
+public abstract class AbstractSelectPlayerView<T extends DefaultPlayer> extends VBox {
 
-    private final ListView<DefaultPlayer> playersListView;
+    private final ListView<T> playersListView;
     private final Button addPlayerButton;
     private final Button selectButton;
 
-    public DefaultSelectPlayerView(List<DefaultPlayer> players) {
+    public AbstractSelectPlayerView(List<T> players) {
         this.playersListView = new ListView<>(FXCollections.observableArrayList(players));
         this.addPlayerButton = UIComponents.createInfoButton("Add User");
         this.selectButton = UIComponents.createSuccessButton("Select");
     }
 
-    public DefaultSelectPlayerView init() {
+    public AbstractSelectPlayerView<T> init() {
         setAlignment(Pos.CENTER);
         getAddPlayerButton().setOnAction(actionEvent ->
-                new NewPlayerDialog(getScene().getWindow()).init().showAndWait().ifPresent(player -> {
+                new NewPlayerDialog<T>(createPlayer(), getScene().getWindow()).init().showAndWait().ifPresent(player -> {
                     getPlayersListView().getItems().add(player);
                     onNewPlayerAdded(player);
                 }));
         getSelectButton().setOnAction(actionEvent -> {
-            DefaultPlayer selectedItem = playersListView.getSelectionModel().getSelectedItem();
+            T selectedItem = getPlayersListView().getSelectionModel().getSelectedItem();
             if (selectedItem != null) {
                 onPlayerSelected(selectedItem);
             } else {
@@ -59,9 +56,11 @@ public class DefaultSelectPlayerView extends VBox {
         return this;
     }
 
-    protected void onNewPlayerAdded(DefaultPlayer player) {
+    protected abstract T createPlayer();
+
+    protected void onNewPlayerAdded(T player) {
     }
 
-    protected void onPlayerSelected(DefaultPlayer player) {
+    protected void onPlayerSelected(T player) {
     }
 }

@@ -1,7 +1,6 @@
 package com.candycrush.app;
 
 import com.tmge.app.AbstractBoard;
-import com.tmge.app.AbstractTilesCollection;
 import lombok.Getter;
 
 @Getter

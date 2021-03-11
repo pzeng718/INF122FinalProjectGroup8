@@ -2,7 +2,7 @@ package com.bejeweled.ui.views.menu.dialog;
 
 import com.bejeweled.Game;
 import com.bejeweled.app.Level;
-import com.tmge.app.player.DefaultPlayer;
+import com.bejeweled.app.player.Player;
 import com.tmge.ui.components.AbstractDialog;
 import com.tmge.ui.components.UIComponents;
 import javafx.event.ActionEvent;
@@ -23,11 +23,11 @@ import java.util.stream.Collectors;
 public class StartGameDialog extends AbstractDialog<StartGameOptions> {
 
     private final ComboBox<Level> levelComboBox;
-    private final ComboBox<DefaultPlayer> secondPlayerComboBox;
+    private final ComboBox<Player> secondPlayerComboBox;
     private final CheckBox twoPlayersCheckBox;
-    private final DefaultPlayer player;
+    private final Player player;
 
-    public StartGameDialog(DefaultPlayer player) {
+    public StartGameDialog(Player player) {
         super(Game.getInstance().getStageManager().getStage());
         this.player = player;
         this.levelComboBox = new ComboBox<>();
@@ -40,7 +40,7 @@ public class StartGameDialog extends AbstractDialog<StartGameOptions> {
         getLevelComboBox().getItems().addAll(Level.getLevelsBelowOrEqualToId(getPlayer().getLevel()));
         Level.findLevelById(getPlayer().getLevel()).ifPresent(level ->
                 getLevelComboBox().getSelectionModel().select(level));
-        List<DefaultPlayer> players = Game.getInstance().getPlayerManager().getPlayers().stream()
+        List<Player> players = Game.getInstance().getPlayerManager().getPlayers().stream()
                 .filter(p -> !p.equals(getPlayer()))
                 .collect(Collectors.toList());
         getSecondPlayerComboBox().getItems().addAll(players);

@@ -1,6 +1,5 @@
 package com.bejeweled.app;
 
-import com.bejeweled.app.tile.TileType;
 import lombok.Getter;
 
 import java.util.ArrayList;

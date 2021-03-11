@@ -1,6 +1,5 @@
 package com.candycrush.ui.views.game.dialog;
 
-import com.tmge.app.player.DefaultPlayer;
 import com.tmge.ui.components.AbstractDialog;
 import com.tmge.ui.components.UIComponents;
 import javafx.scene.Node;

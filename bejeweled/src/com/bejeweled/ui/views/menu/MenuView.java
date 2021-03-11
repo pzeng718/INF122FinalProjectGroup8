@@ -1,11 +1,11 @@
 package com.bejeweled.ui.views.menu;
 
 import com.bejeweled.Game;
+import com.bejeweled.app.player.Player;
 import com.bejeweled.ui.views.game.GameView;
 import com.bejeweled.ui.views.menu.dialog.StartGameDialog;
 import com.bejeweled.ui.views.select_player.SelectPlayerView;
 import com.bejeweled.ui.views.statistics.StatisticsView;
-import com.tmge.app.player.DefaultPlayer;
 import com.tmge.ui.components.UIComponents;
 import com.tmge.ui.views.menu.DefaultMenuView;
 
@@ -20,7 +20,7 @@ public class MenuView extends DefaultMenuView {
     public DefaultMenuView init() {
         super.init();
         addMenuItem("Start", () -> {
-            Optional<DefaultPlayer> currentPlayer = Game.getInstance().getPlayerManager().getCurrentPlayer();
+            Optional<Player> currentPlayer = Game.getInstance().getPlayerManager().getCurrentPlayer();
             if (currentPlayer.isPresent()) {
                 new StartGameDialog(currentPlayer.get()).init().showAndWait().ifPresent(startGameOptions ->
                         Game.getInstance().getStageManager().loadView(new GameView(startGameOptions).init()));
@@ -29,7 +29,7 @@ public class MenuView extends DefaultMenuView {
             }
         });
         addMenuItem("Statistics", () -> {
-            Optional<DefaultPlayer> currentPlayer = Game.getInstance().getPlayerManager().getCurrentPlayer();
+            Optional<Player> currentPlayer = Game.getInstance().getPlayerManager().getCurrentPlayer();
             if (currentPlayer.isPresent()) {
                 Game.getInstance().getStageManager().loadView(new StatisticsView(currentPlayer.get()).init());
             } else {

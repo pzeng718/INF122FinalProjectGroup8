@@ -16,13 +16,15 @@ import java.util.Optional;
  * @author vladshaternik on 2/24/21
  */
 @Getter
-public class NewPlayerDialog extends AbstractDialog<DefaultPlayer> {
+public class NewPlayerDialog<T extends DefaultPlayer> extends AbstractDialog<T> {
 
     private final TextField usernameTextField;
+    private final T player;
 
-    public NewPlayerDialog(Window window) {
+    public NewPlayerDialog(T player, Window window) {
         super(window);
         this.usernameTextField = new TextField();
+        this.player = player;
     }
 
     @Override
@@ -35,10 +37,9 @@ public class NewPlayerDialog extends AbstractDialog<DefaultPlayer> {
     }
 
     @Override
-    protected Optional<DefaultPlayer> buildResult() {
-        return Optional.of(DefaultPlayer.builder()
-                .username(getUsernameTextField().getText())
-                .build());
+    protected Optional<T> buildResult() {
+        getPlayer().setUsername(getUsernameTextField().getText());
+        return Optional.of(getPlayer());
     }
 
     @Override
