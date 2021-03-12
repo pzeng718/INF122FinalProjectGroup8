@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public enum Game {
     MATCHINGTON("Matchington", com.matchington.Launcher.class),
-    BEJEWELED("Block Puzzle", com.block_puzzle.Launcher.class),
+    BLOCK_PUZZLE("Block Puzzle", com.block_puzzle.Launcher.class),
     ;
 
     private final String name;

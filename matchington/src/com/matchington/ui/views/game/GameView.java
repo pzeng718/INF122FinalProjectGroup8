@@ -177,7 +177,7 @@ public class GameView extends BorderPane {
         mainMenuButton.setOnAction(actionEvent -> {
             Game.getInstance().getStageManager().loadView(new MenuView().init());
         });
-        top.getChildren().addAll(UIComponents.createTitleLabel("Objective: Score-" + getStartGameOptions().getLevel().getObjectiveScore() + "|Moves-" + getStartGameOptions().getLevel().getObjectiveMoves()),
+        top.getChildren().addAll(UIComponents.createTitleLabel("Objective: Score-" + getStartGameOptions().getLevel().getObjectiveScore() + " | Moves-" + getStartGameOptions().getLevel().getObjectiveMoves()),
                 mainMenuButton);
         setTop(top);
         setCurrentPlayer(getFirstPlayer());
