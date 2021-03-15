@@ -186,8 +186,10 @@ public class GameView extends BorderPane {
                 setCurrentPlayer(getSecondPlayer());
             }
         }
+        getFirstPlayer().setCurrentMoves(0);
         getFirstPlayer().setCurrentScore(0);
         if (getSecondPlayer() != null) {
+            getSecondPlayer().setCurrentMoves(0);
             getSecondPlayer().setCurrentScore(0);
         }
         return this;
