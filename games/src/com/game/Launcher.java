@@ -4,19 +4,16 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.control.ListView;
 import lombok.Getter;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * @author vladshaternik on 3/7/21
@@ -57,7 +54,7 @@ public class Launcher extends Application {
         String javaHome = System.getProperty("java.home");
         String javaBin = javaHome + File.separator + "bin" + File.separator + "java";
         String modulePath = System.getProperty("jdk.module.path");
-        String module = klass.getModule().getName() + File.separator + klass.getName();
+        String module = klass.getModule().getName() + "/" + klass.getName();
 
         List<String> command = new LinkedList<>();
         command.add(javaBin);
