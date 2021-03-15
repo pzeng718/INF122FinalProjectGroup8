@@ -24,7 +24,9 @@ import java.util.concurrent.Executors;
 @Getter
 public class Launcher extends Application {
 
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    public static void main(String[] args) {
+        Application.launch(Launcher.class);
+    }
 
     @Override
     public void start(Stage primaryStage) {
